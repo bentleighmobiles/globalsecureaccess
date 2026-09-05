@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GSA + Zscaler Coexistence Guide | Global Secure Access</title>
+<meta name="description" content="How to run Microsoft Entra Global Secure Access alongside Zscaler — split-tunnel, PAC-based and full coexistence scenarios, and what each platform owns." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="../index.html" aria-label="Global Secure Access home">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </span>
+      <span>Global Secure Access<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="../index.html#services">What we do</a>
+      <a href="../index.html#why">Why us</a>
+      <a href="../index.html#process">How it works</a>
+      <a href="index.html">Resources</a>
+      <a href="../assessment.html" class="btn btn-primary nav-cta">GSA Assessment</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="guide-hero">
+    <div class="wrap">
+      <span class="kicker">GSA coexistence guide</span>
+      <h1>Global Secure Access + Zscaler</h1>
+      <p class="sub">Zscaler secures your internet traffic; GSA takes over private access and identity. The most common coexistence pattern we see — and Microsoft documents four supported scenarios for it.</p>
+      <div class="vrow"><span class="vswatch" style="background:#1664c0"></span> Zscaler · ZIA / ZPA</div>
+    </div>
+  </section>
+
+  <section class="guide-body">
+    <div class="wrap">
+      <div class="guide-grid">
+        <div class="own-panel gsa">
+          <h3>GSA owns</h3>
+          <ul>
+            <li>Private access to on-prem / legacy apps (Entra Private Access)</li>
+            <li>Microsoft 365 traffic</li>
+            <li>Identity + Conditional Access enforcement</li>
+          </ul>
+        </div>
+        <div class="own-panel vendor">
+          <h3>Zscaler owns (during coexistence)</h3>
+          <ul>
+            <li>Internet and SaaS traffic via ZIA (SWG)</li>
+            <li>ZPA-published private apps you're not ready to move</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="guide-step"><h4><span class="sn">01</span>Decide the traffic split</h4><p>Agree which workloads GSA owns and which Zscaler keeps. Typically: GSA for private + M365, Zscaler for internet/SaaS — or the inverse if you're rolling out Internet Access first.</p></div>
+      <div class="guide-step"><h4><span class="sn">02</span>Align forwarding so they don't double-route</h4><p>Configure Zscaler forwarding profiles (and PAC files where used) so traffic is steered to exactly one platform — no hairpinning or double inspection.</p></div>
+      <div class="guide-step"><h4><span class="sn">03</span>Publish private apps through GSA</h4><p>Deploy the Entra Private Network Connector and publish apps with Quick Access — Zscaler keeps the internet, GSA handles private, side by side.</p></div>
+      <div class="guide-step"><h4><span class="sn">04</span>Cut over app by app</h4><p>Migrate ZPA-published apps to GSA incrementally, then decommission the overlap when you're ready. No big-bang rip-and-replace.</p></div>
+
+      <div class="callout"><b>When to use:</b> you're invested in Zscaler for internet security but want Entra-native private access — or you're consolidating on Entra and want to retire ZPA gradually.</div>
+      <p class="src-link">Full configuration: <a href="https://learn.microsoft.com/en-us/entra/global-secure-access/how-to-zscaler-coexistence">Microsoft Learn — GSA + Zscaler coexistence</a></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="../index.html">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </span>
+      <span>Global Secure Access<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <p class="disc"><strong>Disclaimer:</strong> Independent consultancy, not affiliated with Microsoft. Zscaler is a trademark of Zscaler, Inc. Exact IP ranges and FQDNs are in the Microsoft Learn source above.</p>
+  </div>
+</footer>
+
+<script src="../assets/site.js"></script>
+</body>
+</html>

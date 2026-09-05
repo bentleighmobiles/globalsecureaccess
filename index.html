@@ -10,261 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<style>
-  :root {
-    --ink: #0a1420;
-    --ink-soft: #46536b;
-    --navy: #081629;
-    --navy-2: #0c1f3a;
-    --accent: #14b8a6;
-    --accent-strong: #0d9488;
-    --accent-soft: rgba(20, 184, 166, 0.12);
-    --sky: #38bdf8;
-    --line: #e6ebf2;
-    --surface: #f5f7fa;
-    --white: #ffffff;
-    --radius: 14px;
-    --maxw: 1120px;
-    --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--font);
-    color: var(--ink);
-    background: var(--white);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
-  a { color: inherit; text-decoration: none; }
-  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
-  .mono { font-family: var(--mono); }
-
-  /* ---------- Nav ---------- */
-  header {
-    position: sticky; top: 0; z-index: 50;
-    background: rgba(255,255,255,0.86);
-    backdrop-filter: saturate(180%) blur(12px);
-    border-bottom: 1px solid var(--line);
-  }
-  .nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
-  .brand { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; }
-  .brand .mark {
-    width: 30px; height: 30px; border-radius: 8px; flex: 0 0 auto;
-    background: linear-gradient(135deg, var(--accent), var(--sky));
-    display: grid; place-items: center; color: #04141b;
-  }
-  .brand .mark svg { width: 16px; height: 16px; }
-  .brand small { display: block; font-weight: 500; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); line-height: 1; }
-  .nav-links { display: flex; align-items: center; gap: 28px; font-size: 0.92rem; font-weight: 500; color: var(--ink-soft); }
-  .nav-links a { transition: color .15s; }
-  .nav-links a:hover { color: var(--ink); }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--font); font-weight: 600; font-size: 0.92rem;
-    padding: 11px 20px; border-radius: 10px; border: 1px solid transparent;
-    cursor: pointer; transition: transform .12s, background .15s, box-shadow .15s;
-    white-space: nowrap;
-  }
-  .btn:active { transform: translateY(1px); }
-  .btn-primary { background: var(--accent); color: #03201d; box-shadow: 0 8px 20px -8px rgba(20,184,166,0.6); }
-  .btn-primary:hover { background: var(--accent-strong); }
-  .btn-ghost { border-color: var(--line); color: var(--ink); }
-  .btn-ghost:hover { border-color: #c9d2df; background: var(--surface); }
-  .btn-light { background: #fff; color: var(--ink); }
-  .btn-light:hover { background: #eef2f7; }
-  .nav-cta { padding: 9px 16px; font-size: 0.88rem; }
-  .menu-btn { display: none; background: none; border: 1px solid var(--line); border-radius: 8px; width: 40px; height: 40px; cursor: pointer; }
-  .menu-btn svg { width: 20px; height: 20px; }
-
-  /* ---------- Hero ---------- */
-  .hero {
-    background: radial-gradient(1100px 500px at 80% -10%, rgba(20,184,166,0.18), transparent 60%),
-                radial-gradient(900px 500px at 10% 110%, rgba(56,189,248,0.14), transparent 55%),
-                var(--navy);
-    color: #eaf2f9; position: relative; overflow: hidden;
-  }
-  .hero .grid-bg {
-    position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
-    background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-    background-size: 44px 44px;
-    -webkit-mask-image: radial-gradient(900px 600px at 50% 20%, #000 30%, transparent 75%);
-            mask-image: radial-gradient(900px 600px at 50% 20%, #000 30%, transparent 75%);
-  }
-  .hero-inner { position: relative; padding: 96px 0 88px; }
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.06em;
-    color: var(--accent); background: var(--accent-soft);
-    padding: 7px 13px; border-radius: 999px; margin-bottom: 26px;
-  }
-  .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(20,184,166,0.2); }
-  .hero h1 {
-    font-size: clamp(2.3rem, 5.2vw, 3.9rem); line-height: 1.06; letter-spacing: -0.025em;
-    font-weight: 800; max-width: 16ch;
-  }
-  .hero h1 .accent { color: var(--accent); }
-  .hero .sub {
-    margin-top: 22px; font-size: clamp(1.02rem, 2vw, 1.2rem); color: #b6c4d6;
-    max-width: 58ch; line-height: 1.65;
-  }
-  .hero .sub strong { color: #eaf2f9; font-weight: 600; }
-  .hero-cta { display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; }
-  .hero-foot {
-    margin-top: 56px; display: flex; gap: 34px; flex-wrap: wrap;
-    padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.1);
-  }
-  .hero-foot .item { display: flex; gap: 10px; align-items: flex-start; color: #b6c4d6; font-size: 0.9rem; }
-  .hero-foot .item svg { width: 18px; height: 18px; flex: 0 0 auto; color: var(--accent); margin-top: 2px; }
-  .hero-foot .item b { display: block; color: #eaf2f9; font-weight: 600; }
-
-  /* ---------- Sections ---------- */
-  section { padding: 88px 0; }
-  .kicker {
-    font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--accent-strong); font-weight: 500; margin-bottom: 14px;
-  }
-  h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); letter-spacing: -0.02em; line-height: 1.12; font-weight: 800; }
-  .lede { color: var(--ink-soft); font-size: 1.06rem; margin-top: 16px; max-width: 62ch; }
-  .sec-head { max-width: 780px; margin-bottom: 48px; }
-
-  /* Problem */
-  .problem { background: var(--surface); }
-  .problem .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-  .problem .copy h2 { max-width: 18ch; }
-  .problem .copy p { color: var(--ink-soft); margin-top: 16px; }
-  .shift {
-    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 26px; box-shadow: 0 20px 40px -30px rgba(8,22,41,0.35);
-  }
-  .shift .row { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
-  .shift .row:last-child { border-bottom: 0; }
-  .shift .from, .shift .to { flex: 1; }
-  .shift .lbl { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 4px; }
-  .shift .from { color: #b33939; font-weight: 600; text-decoration: line-through; text-decoration-color: rgba(179,57,57,0.4); }
-  .shift .to { color: var(--accent-strong); font-weight: 600; }
-  .shift .arrow { color: var(--ink-soft); font-family: var(--mono); }
-
-  /* Services */
-  .services { background: var(--white); }
-  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-  .card {
-    border: 1px solid var(--line); border-radius: var(--radius); padding: 26px;
-    background: var(--white); transition: transform .15s, box-shadow .15s, border-color .15s;
-  }
-  .card:hover { transform: translateY(-3px); box-shadow: 0 22px 44px -28px rgba(8,22,41,0.4); border-color: #d6dee9; }
-  .card .icon {
-    width: 42px; height: 42px; border-radius: 10px; display: grid; place-items: center;
-    background: var(--accent-soft); color: var(--accent-strong); margin-bottom: 18px;
-  }
-  .card .icon svg { width: 20px; height: 20px; }
-  .card h3 { font-size: 1.08rem; letter-spacing: -0.01em; margin-bottom: 9px; }
-  .card p { color: var(--ink-soft); font-size: 0.94rem; }
-  .card .tag { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.7rem; color: var(--accent-strong); background: var(--accent-soft); padding: 4px 9px; border-radius: 6px; }
-
-  /* Why us */
-  .why { background: var(--navy); color: #eaf2f9; }
-  .why .kicker { color: var(--accent); }
-  .why .lede { color: #b6c4d6; }
-  .why .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-top: 8px; }
-  .why-item {
-    border: 1px solid rgba(255,255,255,0.09); border-radius: var(--radius); padding: 26px;
-    background: rgba(255,255,255,0.025);
-  }
-  .why-item .num { font-family: var(--mono); color: var(--accent); font-size: 0.82rem; margin-bottom: 12px; }
-  .why-item h3 { font-size: 1.1rem; margin-bottom: 8px; color: #fff; }
-  .why-item p { color: #b6c4d6; font-size: 0.95rem; }
-
-  /* Process */
-  .process { background: var(--surface); }
-  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; counter-reset: step; }
-  .step { position: relative; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
-  .step .n {
-    font-family: var(--mono); font-weight: 500; color: var(--accent-strong);
-    font-size: 0.8rem; display: inline-block; margin-bottom: 14px;
-  }
-  .step h3 { font-size: 1.05rem; margin-bottom: 8px; }
-  .step p { color: var(--ink-soft); font-size: 0.92rem; }
-  .step .time { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.72rem; color: var(--ink-soft); background: var(--surface); padding: 4px 9px; border-radius: 6px; }
-
-  /* Audience */
-  .audience { background: var(--white); }
-  .audience .grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: start; }
-  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-  .chip {
-    border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px;
-    font-size: 0.9rem; font-weight: 500; color: var(--ink); background: var(--white);
-  }
-  .chip b { color: var(--accent-strong); }
-  .aside { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
-  .aside h3 { font-size: 1.1rem; margin-bottom: 14px; }
-  .aside ul { list-style: none; }
-  .aside li { display: flex; gap: 11px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 0.94rem; color: var(--ink-soft); }
-  .aside li:last-child { border-bottom: 0; }
-  .aside li svg { width: 17px; height: 17px; color: var(--accent); flex: 0 0 auto; margin-top: 3px; }
-  .aside li b { color: var(--ink); }
-
-  /* About */
-  .about { background: var(--navy-2); color: #eaf2f9; }
-  .about .kicker { color: var(--accent); }
-  .about-inner { display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: start; }
-  .avatar {
-    width: 72px; height: 72px; border-radius: 50%; flex: 0 0 auto;
-    background: linear-gradient(135deg, var(--accent), var(--sky));
-    display: grid; place-items: center; font-weight: 700; font-size: 1.5rem; color: #04141b;
-  }
-  .about p { color: #b6c4d6; margin-top: 14px; max-width: 70ch; font-size: 1.02rem; }
-  .about .name { font-size: 1.3rem; font-weight: 700; color: #fff; }
-
-  /* Contact */
-  .contact { background: var(--surface); }
-  .contact .box {
-    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 44px; text-align: center; max-width: 720px; margin: 0 auto;
-    box-shadow: 0 30px 60px -40px rgba(8,22,41,0.5);
-  }
-  .contact .box h2 { max-width: 20ch; margin: 0 auto; }
-  .contact .box p { color: var(--ink-soft); margin: 16px auto 28px; max-width: 46ch; }
-  .contact .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-  .contact .email { font-family: var(--mono); font-size: 0.95rem; color: var(--ink); margin-top: 20px; }
-
-  /* Footer */
-  footer { background: var(--navy); color: #8aa0b8; padding: 44px 0; font-size: 0.86rem; }
-  .foot { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: flex-start; }
-  .foot .brand { color: #eaf2f9; }
-  .foot .brand small { color: #8aa0b8; }
-  .foot .disc { max-width: 62ch; line-height: 1.6; }
-  .foot .disc strong { color: #b6c4d6; }
-
-  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
-  .reveal.visible { opacity: 1; transform: none; }
-
-  /* ---------- Responsive ---------- */
-  @media (max-width: 900px) {
-    .cards { grid-template-columns: 1fr 1fr; }
-    .steps { grid-template-columns: 1fr 1fr; }
-    .why .grid { grid-template-columns: 1fr; }
-    .problem .grid, .audience .grid { grid-template-columns: 1fr; }
-    .nav-links { display: none; }
-    .menu-btn { display: grid; place-items: center; }
-    .nav-links.open {
-      display: flex; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0;
-      background: var(--white); border-bottom: 1px solid var(--line); padding: 20px 24px; gap: 18px;
-    }
-  }
-  @media (max-width: 560px) {
-    .cards, .steps { grid-template-columns: 1fr; }
-    .hero-inner { padding: 64px 0 60px; }
-    section { padding: 60px 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .reveal { opacity: 1; transform: none; transition: none; }
-  }
-</style>
+<link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
 
@@ -280,7 +26,8 @@
       <a href="#services">What we do</a>
       <a href="#why">Why us</a>
       <a href="#process">How it works</a>
-      <a href="#contact" class="btn btn-primary nav-cta">Book an assessment</a>
+      <a href="resources/">Resources</a>
+      <a href="assessment.html" class="btn btn-primary nav-cta">GSA Assessment</a>
     </nav>
     <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -297,7 +44,7 @@
       <h1>Zero Trust access, <span class="accent">deployed in weeks</span> — not quarters.</h1>
       <p class="sub">We design and implement <strong>Microsoft Entra Global Secure Access</strong> — Private Access (ZTNA) and Internet Access (SWG) — with senior-led, personalized service and faster turnaround than going direct to a mega-vendor.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#contact">Book a GSA assessment</a>
+        <a class="btn btn-primary" href="assessment.html">Run the GSA Impact Assessment</a>
         <a class="btn btn-light" href="#services">See what we do</a>
       </div>
       <div class="hero-foot">
@@ -518,7 +265,7 @@
         <h2>Ready to deploy Zero Trust — for real?</h2>
         <p>Tell us about your environment and we'll scope a GSA assessment. No obligation, no 40-page deck first — just a straight conversation about your access estate.</p>
         <div class="actions">
-          <a class="btn btn-primary" href="mailto:hello@globalsecureaccess.io?subject=GSA%20Assessment%20Request">Book a GSA assessment</a>
+          <a class="btn btn-primary" href="assessment.html">Start the assessment</a>
           <a class="btn btn-ghost" href="#services">Explore services</a>
         </div>
         <p class="email">hello@globalsecureaccess.io</p>
@@ -539,27 +286,6 @@
   </div>
 </footer>
 
-<script>
-  (function () {
-    var btn = document.getElementById('menuBtn');
-    var nav = document.getElementById('navLinks');
-    btn.addEventListener('click', function () { nav.classList.toggle('open'); });
-    nav.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () { nav.classList.remove('open'); });
-    });
-
-    var els = document.querySelectorAll('.reveal');
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-        });
-      }, { threshold: 0.12 });
-      els.forEach(function (el) { io.observe(el); });
-    } else {
-      els.forEach(function (el) { el.classList.add('visible'); });
-    }
-  })();
-</script>
+<script src="assets/site.js"></script>
 </body>
 </html>

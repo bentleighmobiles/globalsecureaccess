@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GSA + Cisco VPN Coexistence Guide | Global Secure Access</title>
+<meta name="description" content="Run Microsoft Entra Global Secure Access alongside Cisco VPN (Secure Access VPNaaS / ASA Remote Access) with split-include coexistence." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="../index.html" aria-label="Global Secure Access home">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </span>
+      <span>Global Secure Access<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="../index.html#services">What we do</a>
+      <a href="../index.html#why">Why us</a>
+      <a href="../index.html#process">How it works</a>
+      <a href="index.html">Resources</a>
+      <a href="../assessment.html" class="btn btn-primary nav-cta">GSA Assessment</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="guide-hero">
+    <div class="wrap">
+      <span class="kicker">GSA coexistence guide</span>
+      <h1>Global Secure Access + Cisco VPN</h1>
+      <p class="sub">Keep your Cisco VPN for the apps you haven't migrated yet, and let GSA take over the rest with split-include routing. The classic "VPN replacement, done gradually" pattern.</p>
+      <div class="vrow"><span class="vswatch" style="background:#049fd9"></span> Cisco VPN · VPNaaS / ASA Remote Access</div>
+    </div>
+  </section>
+
+  <section class="guide-body">
+    <div class="wrap">
+      <div class="guide-grid">
+        <div class="own-panel gsa">
+          <h3>GSA owns</h3>
+          <ul>
+            <li>Private access to published apps (Entra Private Access)</li>
+            <li>Microsoft 365 traffic</li>
+            <li>Identity + Conditional Access enforcement</li>
+          </ul>
+        </div>
+        <div class="own-panel vendor">
+          <h3>Cisco VPN owns (during coexistence)</h3>
+          <ul>
+            <li>Legacy remote access for apps not yet published to GSA</li>
+            <li>Non-web / TCP-UDP workloads still on the tunnel</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="guide-step"><h4><span class="sn">01</span>Inventory what still needs the VPN</h4><p>Identify which apps genuinely still require the Cisco tunnel — everything else is a candidate for Entra Private Access.</p></div>
+      <div class="guide-step"><h4><span class="sn">02</span>Set up split-include routing</h4><p>Configure the Cisco VPN to only carry the un-migrated routes, so GSA-published apps never traverse the tunnel.</p></div>
+      <div class="guide-step"><h4><span class="sn">03</span>Publish apps through GSA</h4><p>Deploy the Entra Private Network Connector and publish apps with Quick Access, including TCP/UDP — no VPN needed.</p></div>
+      <div class="guide-step"><h4><span class="sn">04</span>Retire the VPN when the route list empties</h4><p>Shrink the split-include list as each app migrates, then decommission the Cisco VPN entirely.</p></div>
+
+      <div class="callout"><b>When to use:</b> you're ready to retire a Cisco ASA/AnyConnect or VPNaaS estate but need a phased cutover — migrate app by app until the tunnel is empty.</div>
+      <p class="src-link">Full configuration: <a href="https://learn.microsoft.com/en-us/entra/global-secure-access/how-to-cisco-vpn-coexistence">Microsoft Learn — GSA + Cisco VPN coexistence</a></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="../index.html">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </span>
+      <span>Global Secure Access<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <p class="disc"><strong>Disclaimer:</strong> Independent consultancy, not affiliated with Microsoft. Cisco is a trademark of Cisco Systems, Inc. Exact config values are in the Microsoft Learn source above.</p>
+  </div>
+</footer>
+
+<script src="../assets/site.js"></script>
+</body>
+</html>

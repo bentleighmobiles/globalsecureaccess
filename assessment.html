@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GSA Impact Assessment — See What Zero Trust Changes | Global Secure Access</title>
+<meta name="description" content="Answer a few questions about your access estate and see a tailored before/after of your network access landscape — plus the recommended Microsoft Entra GSA coexistence path." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="Global Secure Access home">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </span>
+      <span>Global Secure Access<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html#services">What we do</a>
+      <a href="index.html#why">Why us</a>
+      <a href="index.html#process">How it works</a>
+      <a href="resources/">Resources</a>
+      <a href="assessment.html" class="btn btn-primary nav-cta">GSA Assessment</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow"><span class="dot"></span> 5 minutes · no obligation</span>
+      <h1>See what switching to <span class="accent">Global Secure Access</span> changes for you.</h1>
+      <p class="sub">Answer a few questions about your current access estate and get a tailored before/after picture of your network access landscape — plus the recommended coexistence path if you're running another vendor today.</p>
+    </div>
+  </section>
+
+  <section class="wizard">
+    <div class="wrap">
+      <div class="wizard-card">
+        <div class="wiz-progress" id="progress"></div>
+
+        <div class="wiz-body">
+          <!-- Step 1 -->
+          <div class="wiz-step active" data-step="0">
+            <h3>What's your primary remote-access setup today?</h3>
+            <p class="hint">Pick the one closest to how your users reach apps today. Running more than one? Choose the one you'd most want to coexist with (or retire) alongside GSA.</p>
+            <div class="option-grid" id="opt-stack"></div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="wiz-step" data-step="1">
+            <h3>How far along are you with Microsoft 365 + Entra ID?</h3>
+            <p class="hint">GSA is built on Microsoft Entra ID, so this shapes your rollout — but it's not a blocker.</p>
+            <div class="option-grid three" id="opt-entra"></div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="wiz-step" data-step="2">
+            <h3>What do your users need to reach remotely?</h3>
+            <p class="hint">Select all that apply — this determines what Entra Private Access must publish.</p>
+            <div class="option-grid" id="opt-resources"></div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="wiz-step" data-step="3">
+            <h3>How many people need secure remote access?</h3>
+            <p class="hint">A rough size helps us shape licensing and rollout phasing.</p>
+            <div class="option-grid three" id="opt-scale"></div>
+          </div>
+
+          <!-- Step 5: result + lead capture -->
+          <div class="wiz-step" data-step="4">
+            <h3>Your GSA landscape</h3>
+            <p class="hint">Here's how your access architecture shifts — and the path that fits your current stack.</p>
+
+            <div class="before-after">
+              <div class="ba-panel before">
+                <div class="ba-head"><span class="tagdot" id="beforeDot"></span> Today</div>
+                <div class="ba-body"><svg id="beforeSvg" class="diagram" viewBox="0 0 430 240" role="img" aria-label="Current network access landscape"></svg></div>
+                <div class="ba-note" id="beforeNote"></div>
+              </div>
+              <div class="ba-panel after">
+                <div class="ba-head"><span class="tagdot" style="background:#38bdf8"></span> After GSA</div>
+                <div class="ba-body"><svg id="afterSvg" class="diagram" viewBox="0 0 430 240" role="img" aria-label="Network access landscape after Global Secure Access"></svg></div>
+                <div class="ba-note" id="afterNote"></div>
+              </div>
+            </div>
+
+            <div class="result-card" style="margin-top:20px">
+              <div class="rc-head"><span class="badge">Recommended path</span></div>
+              <h3 id="recTitle"></h3>
+              <p id="recDesc"></p>
+              <p style="margin-top:14px"><a id="recLink" class="btn btn-ghost" style="display:none" href="#">Read the coexistence guide &rarr;</a></p>
+            </div>
+
+            <div class="result-card">
+              <h3>What changes after switching</h3>
+              <ul class="change-list" id="changeList"></ul>
+            </div>
+
+            <hr style="border:none;border-top:1px solid var(--line);margin:28px 0">
+
+            <h3 style="font-size:1.2rem">Get your tailored assessment</h3>
+            <p class="hint">Leave your details and we'll send a short written assessment of your GSA path. No obligation, no spam.</p>
+
+            <form id="leadForm" novalidate>
+              <div class="form-grid">
+                <div class="field"><label>Name <span class="req">*</span></label><input type="text" id="fName" required placeholder="Jane Smith"></div>
+                <div class="field"><label>Company</label><input type="text" id="fCompany" placeholder="Acme Pty Ltd"></div>
+              </div>
+              <div class="field"><label>Work email <span class="req">*</span></label><input type="email" id="fEmail" required placeholder="jane@acme.com"></div>
+              <div class="field"><label>Anything else? (optional)</label><textarea id="fNote" rows="3" placeholder="e.g. timeline, compliance drivers, current pain points…"></textarea></div>
+              <label style="display:flex;gap:9px;align-items:flex-start;font-size:0.85rem;color:var(--ink-soft);margin:6px 0 18px;cursor:pointer">
+                <input type="checkbox" id="fConsent" checked style="margin-top:3px"> I'm happy for you to email me about my assessment (and nothing else).
+              </label>
+              <button type="submit" class="btn btn-primary">Send my assessment request</button>
+              <p class="submit-msg" id="submitMsg"></p>
+            </form>
+          </div>
+        </div>
+
+        <div class="wiz-nav">
+          <button id="backBtn" class="btn btn-ghost" type="button">Back</button>
+          <span class="spacer"></span>
+          <button id="nextBtn" class="btn btn-primary" type="button">Next</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="index.html">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </span>
+      <span>Global Secure Access<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <p class="disc"><strong>Disclaimer:</strong> Global Secure Access is an independent consultancy and is not affiliated with, endorsed by, or sponsored by Microsoft Corporation. Microsoft, Entra, Azure AD, and related marks are trademarks of Microsoft. All product names are used for identification only. Contact and legal-entity details are placeholders pending finalization.</p>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script src="assets/assessment.js"></script>
+</body>
+</html>
