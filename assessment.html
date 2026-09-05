@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GSA Impact Assessment — See What Zero Trust Changes | Global Secure Access</title>
-<meta name="description" content="Answer a few questions about your access estate and see a tailored before/after of your network access landscape — plus the recommended Microsoft Entra GSA coexistence path." />
+<title>GSA Impact Assessment — Adopt or Review Microsoft Entra GSA | Global Secure Access</title>
+<meta name="description" content="Answer a few questions about your access estate and get a tailored before/after picture — or a recommended architecture review — for Microsoft Entra Global Secure Access." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -38,7 +38,7 @@
     <div class="wrap">
       <span class="eyebrow"><span class="dot"></span> 5 minutes · no obligation</span>
       <h1>See what <span class="accent">Global Secure Access</span> changes — and how your current setup fits.</h1>
-      <p class="sub">Answer a few questions about your current access estate — whether you're adopting GSA or already running it alongside another vendor — and get a tailored before/after picture of your network access landscape and the recommended coexistence path.</p>
+      <p class="sub">Answer a few questions about your access estate — whether you're adopting GSA or already running it and want an independent review — and get a tailored picture plus the recommended path.</p>
     </div>
   </section>
 
@@ -48,62 +48,108 @@
         <div class="wiz-progress" id="progress"></div>
 
         <div class="wiz-body">
-          <!-- Step 1 -->
-          <div class="wiz-step active" data-step="0">
+          <!-- 0: mode -->
+          <div class="wiz-step active" data-key="mode">
+            <h3>What brings you here?</h3>
+            <p class="hint">This changes the questions we ask — pick whichever fits your situation.</p>
+            <div class="option-grid" id="opt-mode"></div>
+          </div>
+
+          <!-- adopt: 1 stack -->
+          <div class="wiz-step" data-key="stack">
             <h3>What's your primary remote-access setup today?</h3>
             <p class="hint">Pick the one closest to how your users reach apps today. Running more than one? Choose the one you'd most want to coexist with (or retire) alongside GSA.</p>
             <div class="option-grid" id="opt-stack"></div>
           </div>
 
-          <!-- Step 2 -->
-          <div class="wiz-step" data-step="1">
+          <!-- adopt: 2 entra -->
+          <div class="wiz-step" data-key="entra">
             <h3>How far along are you with Microsoft 365 + Entra ID?</h3>
             <p class="hint">GSA is built on Microsoft Entra ID, so this shapes your rollout — but it's not a blocker.</p>
             <div class="option-grid three" id="opt-entra"></div>
           </div>
 
-          <!-- Step 3 -->
-          <div class="wiz-step" data-step="2">
+          <!-- adopt: 3 resources -->
+          <div class="wiz-step" data-key="resources">
             <h3>What do your users need to reach remotely?</h3>
             <p class="hint">Select all that apply — this determines what Entra Private Access must publish.</p>
             <div class="option-grid" id="opt-resources"></div>
           </div>
 
-          <!-- Step 4 -->
-          <div class="wiz-step" data-step="3">
-            <h3>How many people need secure remote access?</h3>
+          <!-- review: 1 deployed -->
+          <div class="wiz-step" data-key="deployed">
+            <h3>What's deployed today?</h3>
+            <p class="hint">Select everything that's live in your tenant — this shapes the scope of the review.</p>
+            <div class="option-grid" id="opt-deployed"></div>
+          </div>
+
+          <!-- review: 2 drivers -->
+          <div class="wiz-step" data-key="drivers">
+            <h3>What's driving the review?</h3>
+            <p class="hint">Select all that apply — we'll target the findings to these.</p>
+            <div class="option-grid" id="opt-drivers"></div>
+          </div>
+
+          <!-- review: 3 outcome -->
+          <div class="wiz-step" data-key="outcome">
+            <h3>What do you need most?</h3>
+            <p class="hint">The deliverable we'd shape the engagement around.</p>
+            <div class="option-grid" id="opt-outcome"></div>
+          </div>
+
+          <!-- both: scale -->
+          <div class="wiz-step" data-key="scale">
+            <h3>How many people are in scope?</h3>
             <p class="hint">A rough size helps us shape licensing and rollout phasing.</p>
             <div class="option-grid three" id="opt-scale"></div>
           </div>
 
-          <!-- Step 5: result + lead capture -->
-          <div class="wiz-step" data-step="4">
-            <h3>Your GSA landscape</h3>
-            <p class="hint">Here's how your access architecture shifts — and the path that fits your current stack.</p>
+          <!-- result + lead capture -->
+          <div class="wiz-step" data-key="result">
+            <h3 id="resultHeading">Your GSA landscape</h3>
+            <p class="hint" id="resultHint">Here's how your access architecture shifts — and the path that fits your current stack.</p>
 
-            <div class="before-after">
-              <div class="ba-panel before">
-                <div class="ba-head"><span class="tagdot" id="beforeDot"></span> Today</div>
-                <div class="ba-body"><svg id="beforeSvg" class="diagram" viewBox="0 0 430 240" role="img" aria-label="Current network access landscape"></svg></div>
-                <div class="ba-note" id="beforeNote"></div>
+            <div id="adoptResult">
+              <div class="before-after">
+                <div class="ba-panel before">
+                  <div class="ba-head"><span class="tagdot" id="beforeDot"></span> Today</div>
+                  <div class="ba-body"><svg id="beforeSvg" class="diagram" viewBox="0 0 430 240" role="img" aria-label="Current network access landscape"></svg></div>
+                  <div class="ba-note" id="beforeNote"></div>
+                </div>
+                <div class="ba-panel after">
+                  <div class="ba-head"><span class="tagdot" style="background:#38bdf8"></span> After GSA</div>
+                  <div class="ba-body"><svg id="afterSvg" class="diagram" viewBox="0 0 430 240" role="img" aria-label="Network access landscape after Global Secure Access"></svg></div>
+                  <div class="ba-note" id="afterNote"></div>
+                </div>
               </div>
-              <div class="ba-panel after">
-                <div class="ba-head"><span class="tagdot" style="background:#38bdf8"></span> After GSA</div>
-                <div class="ba-body"><svg id="afterSvg" class="diagram" viewBox="0 0 430 240" role="img" aria-label="Network access landscape after Global Secure Access"></svg></div>
-                <div class="ba-note" id="afterNote"></div>
+
+              <div class="result-card" style="margin-top:20px">
+                <div class="rc-head"><span class="badge">Recommended path</span></div>
+                <h3 id="recTitle"></h3>
+                <p id="recDesc"></p>
+                <p style="margin-top:14px"><a id="recLink" class="btn btn-ghost" style="display:none" href="#">Read the coexistence guide &rarr;</a></p>
+              </div>
+
+              <div class="result-card">
+                <h3>What changes after switching</h3>
+                <ul class="change-list" id="changeList"></ul>
               </div>
             </div>
 
-            <div class="result-card" style="margin-top:20px">
-              <div class="rc-head"><span class="badge">Recommended path</span></div>
-              <h3 id="recTitle"></h3>
-              <p id="recDesc"></p>
-              <p style="margin-top:14px"><a id="recLink" class="btn btn-ghost" style="display:none" href="#">Read the coexistence guide &rarr;</a></p>
-            </div>
-
-            <div class="result-card">
-              <h3>What changes after switching</h3>
-              <ul class="change-list" id="changeList"></ul>
+            <div id="reviewResult" style="display:none">
+              <div class="result-card">
+                <div class="rc-head"><span class="badge">Recommended engagement</span></div>
+                <h3 id="revTitle"></h3>
+                <p id="revDesc"></p>
+              </div>
+              <div class="result-card">
+                <h3>What we'll review</h3>
+                <ul class="change-list" id="revChecklist"></ul>
+              </div>
+              <div class="result-card">
+                <h3>Your review drivers</h3>
+                <ul class="change-list" id="revDrivers"></ul>
+              </div>
             </div>
 
             <hr style="border:none;border-top:1px solid var(--line);margin:28px 0">
