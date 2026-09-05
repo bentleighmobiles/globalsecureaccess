@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Global Secure Access — Microsoft Entra GSA Specialists | Zero Trust, Deployed Fast</title>
+<meta name="description" content="Independent specialists in Microsoft Entra Global Secure Access. We design and deploy Private Access (ZTNA) and Internet Access (SWG) with senior-led, personalized service and faster turnaround than going direct." />
+<meta property="og:title" content="Global Secure Access — Microsoft Entra GSA Specialists" />
+<meta property="og:description" content="Zero Trust network access, deployed in weeks — not quarters. Senior-led Microsoft Entra GSA implementation." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #0a1420;
+    --ink-soft: #46536b;
+    --navy: #081629;
+    --navy-2: #0c1f3a;
+    --accent: #14b8a6;
+    --accent-strong: #0d9488;
+    --accent-soft: rgba(20, 184, 166, 0.12);
+    --sky: #38bdf8;
+    --line: #e6ebf2;
+    --surface: #f5f7fa;
+    --white: #ffffff;
+    --radius: 14px;
+    --maxw: 1120px;
+    --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    color: var(--ink);
+    background: var(--white);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+  .mono { font-family: var(--mono); }
+
+  /* ---------- Nav ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.86);
+    backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .brand { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; }
+  .brand .mark {
+    width: 30px; height: 30px; border-radius: 8px; flex: 0 0 auto;
+    background: linear-gradient(135deg, var(--accent), var(--sky));
+    display: grid; place-items: center; color: #04141b;
+  }
+  .brand .mark svg { width: 16px; height: 16px; }
+  .brand small { display: block; font-weight: 500; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); line-height: 1; }
+  .nav-links { display: flex; align-items: center; gap: 28px; font-size: 0.92rem; font-weight: 500; color: var(--ink-soft); }
+  .nav-links a { transition: color .15s; }
+  .nav-links a:hover { color: var(--ink); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font); font-weight: 600; font-size: 0.92rem;
+    padding: 11px 20px; border-radius: 10px; border: 1px solid transparent;
+    cursor: pointer; transition: transform .12s, background .15s, box-shadow .15s;
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--accent); color: #03201d; box-shadow: 0 8px 20px -8px rgba(20,184,166,0.6); }
+  .btn-primary:hover { background: var(--accent-strong); }
+  .btn-ghost { border-color: var(--line); color: var(--ink); }
+  .btn-ghost:hover { border-color: #c9d2df; background: var(--surface); }
+  .btn-light { background: #fff; color: var(--ink); }
+  .btn-light:hover { background: #eef2f7; }
+  .nav-cta { padding: 9px 16px; font-size: 0.88rem; }
+  .menu-btn { display: none; background: none; border: 1px solid var(--line); border-radius: 8px; width: 40px; height: 40px; cursor: pointer; }
+  .menu-btn svg { width: 20px; height: 20px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: radial-gradient(1100px 500px at 80% -10%, rgba(20,184,166,0.18), transparent 60%),
+                radial-gradient(900px 500px at 10% 110%, rgba(56,189,248,0.14), transparent 55%),
+                var(--navy);
+    color: #eaf2f9; position: relative; overflow: hidden;
+  }
+  .hero .grid-bg {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
+    background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(900px 600px at 50% 20%, #000 30%, transparent 75%);
+            mask-image: radial-gradient(900px 600px at 50% 20%, #000 30%, transparent 75%);
+  }
+  .hero-inner { position: relative; padding: 96px 0 88px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.06em;
+    color: var(--accent); background: var(--accent-soft);
+    padding: 7px 13px; border-radius: 999px; margin-bottom: 26px;
+  }
+  .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(20,184,166,0.2); }
+  .hero h1 {
+    font-size: clamp(2.3rem, 5.2vw, 3.9rem); line-height: 1.06; letter-spacing: -0.025em;
+    font-weight: 800; max-width: 16ch;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero .sub {
+    margin-top: 22px; font-size: clamp(1.02rem, 2vw, 1.2rem); color: #b6c4d6;
+    max-width: 58ch; line-height: 1.65;
+  }
+  .hero .sub strong { color: #eaf2f9; font-weight: 600; }
+  .hero-cta { display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; }
+  .hero-foot {
+    margin-top: 56px; display: flex; gap: 34px; flex-wrap: wrap;
+    padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .hero-foot .item { display: flex; gap: 10px; align-items: flex-start; color: #b6c4d6; font-size: 0.9rem; }
+  .hero-foot .item svg { width: 18px; height: 18px; flex: 0 0 auto; color: var(--accent); margin-top: 2px; }
+  .hero-foot .item b { display: block; color: #eaf2f9; font-weight: 600; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 88px 0; }
+  .kicker {
+    font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent-strong); font-weight: 500; margin-bottom: 14px;
+  }
+  h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); letter-spacing: -0.02em; line-height: 1.12; font-weight: 800; }
+  .lede { color: var(--ink-soft); font-size: 1.06rem; margin-top: 16px; max-width: 62ch; }
+  .sec-head { max-width: 780px; margin-bottom: 48px; }
+
+  /* Problem */
+  .problem { background: var(--surface); }
+  .problem .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .problem .copy h2 { max-width: 18ch; }
+  .problem .copy p { color: var(--ink-soft); margin-top: 16px; }
+  .shift {
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 26px; box-shadow: 0 20px 40px -30px rgba(8,22,41,0.35);
+  }
+  .shift .row { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .shift .row:last-child { border-bottom: 0; }
+  .shift .from, .shift .to { flex: 1; }
+  .shift .lbl { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 4px; }
+  .shift .from { color: #b33939; font-weight: 600; text-decoration: line-through; text-decoration-color: rgba(179,57,57,0.4); }
+  .shift .to { color: var(--accent-strong); font-weight: 600; }
+  .shift .arrow { color: var(--ink-soft); font-family: var(--mono); }
+
+  /* Services */
+  .services { background: var(--white); }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .card {
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 26px;
+    background: var(--white); transition: transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 22px 44px -28px rgba(8,22,41,0.4); border-color: #d6dee9; }
+  .card .icon {
+    width: 42px; height: 42px; border-radius: 10px; display: grid; place-items: center;
+    background: var(--accent-soft); color: var(--accent-strong); margin-bottom: 18px;
+  }
+  .card .icon svg { width: 20px; height: 20px; }
+  .card h3 { font-size: 1.08rem; letter-spacing: -0.01em; margin-bottom: 9px; }
+  .card p { color: var(--ink-soft); font-size: 0.94rem; }
+  .card .tag { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.7rem; color: var(--accent-strong); background: var(--accent-soft); padding: 4px 9px; border-radius: 6px; }
+
+  /* Why us */
+  .why { background: var(--navy); color: #eaf2f9; }
+  .why .kicker { color: var(--accent); }
+  .why .lede { color: #b6c4d6; }
+  .why .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-top: 8px; }
+  .why-item {
+    border: 1px solid rgba(255,255,255,0.09); border-radius: var(--radius); padding: 26px;
+    background: rgba(255,255,255,0.025);
+  }
+  .why-item .num { font-family: var(--mono); color: var(--accent); font-size: 0.82rem; margin-bottom: 12px; }
+  .why-item h3 { font-size: 1.1rem; margin-bottom: 8px; color: #fff; }
+  .why-item p { color: #b6c4d6; font-size: 0.95rem; }
+
+  /* Process */
+  .process { background: var(--surface); }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; counter-reset: step; }
+  .step { position: relative; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
+  .step .n {
+    font-family: var(--mono); font-weight: 500; color: var(--accent-strong);
+    font-size: 0.8rem; display: inline-block; margin-bottom: 14px;
+  }
+  .step h3 { font-size: 1.05rem; margin-bottom: 8px; }
+  .step p { color: var(--ink-soft); font-size: 0.92rem; }
+  .step .time { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.72rem; color: var(--ink-soft); background: var(--surface); padding: 4px 9px; border-radius: 6px; }
+
+  /* Audience */
+  .audience { background: var(--white); }
+  .audience .grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: start; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .chip {
+    border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px;
+    font-size: 0.9rem; font-weight: 500; color: var(--ink); background: var(--white);
+  }
+  .chip b { color: var(--accent-strong); }
+  .aside { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
+  .aside h3 { font-size: 1.1rem; margin-bottom: 14px; }
+  .aside ul { list-style: none; }
+  .aside li { display: flex; gap: 11px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 0.94rem; color: var(--ink-soft); }
+  .aside li:last-child { border-bottom: 0; }
+  .aside li svg { width: 17px; height: 17px; color: var(--accent); flex: 0 0 auto; margin-top: 3px; }
+  .aside li b { color: var(--ink); }
+
+  /* About */
+  .about { background: var(--navy-2); color: #eaf2f9; }
+  .about .kicker { color: var(--accent); }
+  .about-inner { display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: start; }
+  .avatar {
+    width: 72px; height: 72px; border-radius: 50%; flex: 0 0 auto;
+    background: linear-gradient(135deg, var(--accent), var(--sky));
+    display: grid; place-items: center; font-weight: 700; font-size: 1.5rem; color: #04141b;
+  }
+  .about p { color: #b6c4d6; margin-top: 14px; max-width: 70ch; font-size: 1.02rem; }
+  .about .name { font-size: 1.3rem; font-weight: 700; color: #fff; }
+
+  /* Contact */
+  .contact { background: var(--surface); }
+  .contact .box {
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 44px; text-align: center; max-width: 720px; margin: 0 auto;
+    box-shadow: 0 30px 60px -40px rgba(8,22,41,0.5);
+  }
+  .contact .box h2 { max-width: 20ch; margin: 0 auto; }
+  .contact .box p { color: var(--ink-soft); margin: 16px auto 28px; max-width: 46ch; }
+  .contact .actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .contact .email { font-family: var(--mono); font-size: 0.95rem; color: var(--ink); margin-top: 20px; }
+
+  /* Footer */
+  footer { background: var(--navy); color: #8aa0b8; padding: 44px 0; font-size: 0.86rem; }
+  .foot { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: flex-start; }
+  .foot .brand { color: #eaf2f9; }
+  .foot .brand small { color: #8aa0b8; }
+  .foot .disc { max-width: 62ch; line-height: 1.6; }
+  .foot .disc strong { color: #b6c4d6; }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .cards { grid-template-columns: 1fr 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .why .grid { grid-template-columns: 1fr; }
+    .problem .grid, .audience .grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .menu-btn { display: grid; place-items: center; }
+    .nav-links.open {
+      display: flex; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0;
+      background: var(--white); border-bottom: 1px solid var(--line); padding: 20px 24px; gap: 18px;
+    }
+  }
+  @media (max-width: 560px) {
+    .cards, .steps { grid-template-columns: 1fr; }
+    .hero-inner { padding: 64px 0 60px; }
+    section { padding: 60px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Global Secure Access home">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </span>
+      <span>Global Secure Access<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#services">What we do</a>
+      <a href="#why">Why us</a>
+      <a href="#process">How it works</a>
+      <a href="#contact" class="btn btn-primary nav-cta">Book an assessment</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="grid-bg"></div>
+    <div class="wrap hero-inner">
+      <span class="eyebrow"><span class="dot"></span> Microsoft Entra · Global Secure Access</span>
+      <h1>Zero Trust access, <span class="accent">deployed in weeks</span> — not quarters.</h1>
+      <p class="sub">We design and implement <strong>Microsoft Entra Global Secure Access</strong> — Private Access (ZTNA) and Internet Access (SWG) — with senior-led, personalized service and faster turnaround than going direct to a mega-vendor.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#contact">Book a GSA assessment</a>
+        <a class="btn btn-light" href="#services">See what we do</a>
+      </div>
+      <div class="hero-foot">
+        <div class="item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v6c0 5 3.8 8.2 9 9 5.2-.8 9-4 9-9V7l-9-5z"/><path d="m9 12 2 2 4-4"/></svg>
+          <span><b>Zero Trust by default</b>Identity-first, per-app access — never broad network trust.</span>
+        </div>
+        <div class="item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <span><b>Weeks, not quarters</b>Senior-led delivery that ships on a real timeline.</span>
+        </div>
+        <div class="item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <span><b>Microsoft Entra native</b>Built on the identity platform you already run.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM / SHIFT -->
+  <section class="problem">
+    <div class="wrap grid">
+      <div class="copy reveal">
+        <span class="kicker">The shift</span>
+        <h2>Your VPN is a liability, not a strategy.</h2>
+        <p>A legacy VPN gives anyone with a tunnel broad access to the whole network. Microsoft's answer — Global Secure Access — replaces that with <strong>per-app, identity-based Zero Trust</strong>: users authenticate to each app, and access follows identity, device posture and risk — not the network they're on.</p>
+        <p>But buying the license is only step one. Where GSA projects stall is <strong>deployment</strong>: app discovery, connector rollout, Conditional Access migration, and change management. That's the part we do every day.</p>
+      </div>
+      <div class="shift reveal">
+        <div class="row">
+          <div class="from"><div class="lbl">Before</div>Always-on VPN tunnels</div>
+          <div class="arrow">→</div>
+          <div class="to"><div class="lbl">After</div>Per-app Zero Trust access</div>
+        </div>
+        <div class="row">
+          <div class="from"><div class="lbl">Before</div>Network-level trust</div>
+          <div class="arrow">→</div>
+          <div class="to"><div class="lbl">After</div>Identity + device + risk</div>
+        </div>
+        <div class="row">
+          <div class="from"><div class="lbl">Before</div>On-prem appliance sprawl</div>
+          <div class="arrow">→</div>
+          <div class="to"><div class="lbl">After</div>Cloud-native SSE</div>
+        </div>
+        <div class="row">
+          <div class="from"><div class="lbl">Before</div>Months of consulting</div>
+          <div class="arrow">→</div>
+          <div class="to"><div class="lbl">After</div>Weeks to production</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="kicker">What we do</span>
+        <h2>The Microsoft Entra GSA stack, end to end.</h2>
+        <p class="lede">We mirror Microsoft's Global Secure Access portfolio — but deliver it as a focused, senior-led engagement tailored to your apps and users.</p>
+      </div>
+      <div class="cards">
+        <div class="card reveal">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h3>GSA Strategy &amp; Zero Trust Assessment</h3>
+          <p>Map your applications, users and access paths; benchmark Zero Trust maturity; and build a phased GSA roadmap with clear wins first.</p>
+          <span class="tag">ENTRA ID · CONDITIONAL ACCESS</span>
+        </div>
+        <div class="card reveal">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+          <h3>Entra Private Access (ZTNA)</h3>
+          <p>Replace your VPN. Publish on-premises and legacy apps — including TCP/UDP — with Quick Access and per-app adaptive access, no legacy tunnel required.</p>
+          <span class="tag">ZTNA · VPN REPLACEMENT</span>
+        </div>
+        <div class="card reveal">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></div>
+          <h3>Entra Internet Access (SWG)</h3>
+          <p>Roll out an identity-based Secure Web Gateway — web content filtering, threat protection and conditional controls for internet, SaaS and Microsoft 365 traffic.</p>
+          <span class="tag">SWG · SECURE WEB GATEWAY</span>
+        </div>
+        <div class="card reveal">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <h3>Conditional Access &amp; Identity</h3>
+          <p>Design and migrate the policies that make Zero Trust real — access follows identity, device posture and sign-in risk, not the network you're on.</p>
+          <span class="tag">IDENTITY · POLICY MIGRATION</span>
+        </div>
+        <div class="card reveal">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <h3>Entra Suite Licensing &amp; Optimization</h3>
+          <p>Right-size your Microsoft Entra Suite, Entra ID P1/P2 and GSA licensing so you pay for what you use — and unlock features you've already bought.</p>
+          <span class="tag">LICENSING · COST</span>
+        </div>
+        <div class="card reveal">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></div>
+          <h3>Managed Secure Access</h3>
+          <p>Ongoing operations — health checks, connector monitoring, policy changes and incident support — so your GSA estate stays secure after go-live.</p>
+          <span class="tag">ONGOING · SUPPORT</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="why" id="why">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="kicker">Why us</span>
+        <h2>Senior-led and personal. Not billable-hour theater.</h2>
+        <p class="lede">Going direct to a mega-vendor means template playbooks, junior delivery teams and long queues. We're the alternative.</p>
+      </div>
+      <div class="grid">
+        <div class="why-item reveal">
+          <div class="num">01</div>
+          <h3>Built by a Global Secure Access SME</h3>
+          <p>Led by a security professional with enterprise experience as a Global Secure Access subject-matter expert at a national telco — the person who designs your architecture is the one you talk to.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="num">02</div>
+          <h3>Faster turnaround</h3>
+          <p>Small, focused, senior. No offshore handoffs, no 12-person project theatre. We scope in days and ship in weeks, with a real timeline you can hold us to.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="num">03</div>
+          <h3>Personalized to your environment</h3>
+          <p>We learn your apps, users and constraints first, then design. Not a template where your business is forced into the product's box.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="num">04</div>
+          <h3>Fixed outcomes, clean handover</h3>
+          <p>Clear deliverables, documented runbooks and knowledge transfer to your team — so you're never locked in and can operate GSA yourself.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="kicker">How it works</span>
+        <h2>A focused path from VPN to Zero Trust.</h2>
+        <p class="lede">Phased, low-risk, with production value at every step.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <span class="n">STEP 01</span>
+          <h3>Assess</h3>
+          <p>Access-path discovery, app inventory and a Zero Trust maturity snapshot.</p>
+          <span class="time">~1 week</span>
+        </div>
+        <div class="step reveal">
+          <span class="n">STEP 02</span>
+          <h3>Design</h3>
+          <p>Target architecture, app migration plan and Conditional Access policy design.</p>
+          <span class="time">~1–2 weeks</span>
+        </div>
+        <div class="step reveal">
+          <span class="n">STEP 03</span>
+          <h3>Implement</h3>
+          <p>Phased rollout: Quick Access → Private Access → Internet Access, app by app.</p>
+          <span class="time">Sprints</span>
+        </div>
+        <div class="step reveal">
+          <span class="n">STEP 04</span>
+          <h3>Support</h3>
+          <p>Hypercare, documentation, knowledge transfer and optional ongoing management.</p>
+          <span class="time">Ongoing</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUDIENCE -->
+  <section class="audience">
+    <div class="wrap grid">
+      <div class="reveal">
+        <span class="kicker">Who it's for</span>
+        <h2>Teams that are ready to retire the VPN.</h2>
+        <p class="lede">If any of these sound like you, we should talk.</p>
+        <div class="chips">
+          <span class="chip"><b>M365 / Entra ID</b> shops</span>
+          <span class="chip">Replacing <b>Always On VPN</b>, Citrix or legacy VPN</span>
+          <span class="chip"><b>Regulated</b> — finance, health, government</span>
+          <span class="chip">Under a <b>Zero Trust</b> mandate</span>
+          <span class="chip">Already on <b>Entra</b> but not yet using GSA</span>
+          <span class="chip">Hybrid &amp; <b>multicloud</b> environments</span>
+        </div>
+      </div>
+      <aside class="aside reveal">
+        <h3>Signs you're ready</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>VPN is slow and risky</b> — you want per-app access without the tunnel.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>You've bought Entra</b> but GSA is sitting on the shelf.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>A vendor scoped 6 months</b> — you need it done in weeks.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Compliance pressure</b> — Zero Trust is now a requirement, not a goal.</span></li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about">
+    <div class="wrap about-inner">
+      <div class="avatar" aria-hidden="true">GS</div>
+      <div class="reveal">
+        <span class="kicker">About</span>
+        <p class="name">Independent. Senior. Focused on one thing.</p>
+        <p>Global Secure Access is an independent consultancy founded by a security professional who spent years as a <strong>Global Secure Access subject-matter expert at a national telecommunications organization</strong>. That experience — running secure access at enterprise scale — is what we bring to every engagement, with the personal attention and turnaround a big vendor can't match.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="box reveal">
+        <span class="kicker">Get started</span>
+        <h2>Ready to deploy Zero Trust — for real?</h2>
+        <p>Tell us about your environment and we'll scope a GSA assessment. No obligation, no 40-page deck first — just a straight conversation about your access estate.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="mailto:hello@globalsecureaccess.io?subject=GSA%20Assessment%20Request">Book a GSA assessment</a>
+          <a class="btn btn-ghost" href="#services">Explore services</a>
+        </div>
+        <p class="email">hello@globalsecureaccess.io</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="#top">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </span>
+      <span>Global Secure Access<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <p class="disc"><strong>Disclaimer:</strong> Global Secure Access is an independent consultancy and is not affiliated with, endorsed by, or sponsored by Microsoft Corporation. Microsoft, Entra, Azure AD, and related marks are trademarks of Microsoft. All product names are used for identification only. Contact and legal-entity details are placeholders pending finalization.</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById('menuBtn');
+    var nav = document.getElementById('navLinks');
+    btn.addEventListener('click', function () { nav.classList.toggle('open'); });
+    nav.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { nav.classList.remove('open'); });
+    });
+
+    var els = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      els.forEach(function (el) { io.observe(el); });
+    } else {
+      els.forEach(function (el) { el.classList.add('visible'); });
+    }
+  })();
+</script>
+</body>
+</html>
