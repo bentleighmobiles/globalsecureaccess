@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GSA + Cisco VPN Coexistence Guide | Passbeck</title>
-<meta name="description" content="Run Microsoft Entra Global Secure Access alongside Cisco VPN (Secure Access VPNaaS / ASA Remote Access) with split-include coexistence." />
+<title>GSA + Cisco AnyConnect Coexistence Guide | Passbeck</title>
+<meta name="description" content="Run Microsoft Entra Global Secure Access alongside Cisco AnyConnect VPN (Secure Client / ASA remote access) with split-include coexistence." />
 <link rel="canonical" href="https://passbeck.com/resources/cisco-vpn.html" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -38,9 +38,9 @@
   <section class="guide-hero">
     <div class="wrap">
       <span class="kicker">GSA coexistence guide</span>
-      <h1>Global Secure Access + Cisco VPN</h1>
-      <p class="sub">Keep your Cisco VPN for the apps you haven't migrated yet, and let GSA take over the rest with split-include routing. The classic "VPN replacement, done gradually" pattern.</p>
-      <div class="vrow"><span class="vswatch" style="background:#049fd9"></span> Cisco VPN · VPNaaS / ASA Remote Access</div>
+      <h1>Global Secure Access + Cisco AnyConnect</h1>
+      <p class="sub">Keep Cisco AnyConnect (Secure Client) for the apps you haven't migrated yet, and let GSA take over the rest with split-include routing. The classic "VPN replacement, done gradually" pattern.</p>
+      <div class="vrow"><span class="vswatch" style="background:#049fd9"></span> Cisco AnyConnect · Secure Client / ASA remote access</div>
     </div>
   </section>
 
@@ -56,7 +56,7 @@
           </ul>
         </div>
         <div class="own-panel vendor">
-          <h3>Cisco VPN owns (during coexistence)</h3>
+          <h3>Cisco AnyConnect owns (during coexistence)</h3>
           <ul>
             <li>Legacy remote access for apps not yet published to GSA</li>
             <li>Non-web / TCP-UDP workloads still on the tunnel</li>

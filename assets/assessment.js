@@ -1,7 +1,7 @@
 /* GSA Impact Assessment — wizard logic, before/after diagram, lead capture.
    Two modes: "adopt" (switching to GSA) and "review" (already running GSA).
-   Configure the Google Apps Script Web App URL below to enable live Sheet capture. */
-var GOOGLE_SCRIPT_URL = ""; // e.g. "https://script.google.com/macros/s/XXXX/exec"
+   Configure the form endpoint URL below to enable live capture (e.g. a Power Automate flow writing to Excel / a SharePoint List). */
+var FORM_ENDPOINT_URL = ""; // e.g. "https://prod-XX.australiasoutheast.logic.azure.com/workflows/..."
 
 var MODES = [
   { value: "adopt",  label: "We're adopting GSA", meta: "Planning or mid-way through a GSA rollout" },
@@ -10,7 +10,7 @@ var MODES = [
 
 var VENDORS = {
   vpn:       { name: "Legacy VPN",        short: "Legacy VPN",        color: "#94a3b8", guide: null,                 kind: "replace", blurb: "Always-on VPN, Citrix, or legacy remote access" },
-  ciscoVPN:  { name: "Cisco VPN",         short: "Cisco VPN",         color: "#049fd9", guide: "cisco-vpn.html",      kind: "vpn",     blurb: "Secure Access VPNaaS / ASA Remote Access" },
+  ciscoVPN:  { name: "Cisco AnyConnect VPN", short: "Cisco AnyConnect", color: "#049fd9", guide: "cisco-vpn.html",      kind: "vpn",     blurb: "AnyConnect / Secure Client remote-access VPN (ASA / Firepower)" },
   zscaler:   { name: "Zscaler",           short: "Zscaler",           color: "#1664c0", guide: "zscaler.html",        kind: "sse",     blurb: "ZIA / ZPA secure access" },
   umbrella:  { name: "Cisco Umbrella",    short: "Cisco Umbrella",    color: "#049fd9", guide: "cisco-umbrella.html", kind: "sse",     blurb: "DNS-layer security + SWG" },
   ciscoSA:   { name: "Cisco Secure Access", short: "Cisco Secure Access", color: "#049fd9", guide: "cisco-secure-access.html", kind: "sse", blurb: "SSE / ZTA (formerly Cisco+ Secure Connect)" },
@@ -246,8 +246,8 @@ function computeRecommendation(v) {
     rec.title = "Private Access VPN replacement";
     rec.desc = "Your legacy VPN can be retired outright: publish each app through Entra Private Access and cut the tunnel entirely. No vendor coexistence needed.";
   } else if (v.kind === "vpn") {
-    rec.title = "Cisco VPN coexistence";
-    rec.desc = "Keep your Cisco VPN where it still makes sense and add GSA alongside it — a staged split-include / VPNaaS coexistence so users move off gradually.";
+    rec.title = "Cisco AnyConnect coexistence";
+    rec.desc = "Keep Cisco AnyConnect (Secure Client) where it still makes sense and add GSA alongside it — a staged split-include coexistence so users move off the VPN gradually.";
     rec.guide = v.guide; rec.coexist = true;
   } else {
     rec.title = v.name + " coexistence";
@@ -392,11 +392,10 @@ document.getElementById("leadForm").addEventListener("submit", function (e) {
   bodyLines.push("");
   bodyLines.push(note ? "Notes: " + note : "");
 
-  if (GOOGLE_SCRIPT_URL) {
-    fetch(GOOGLE_SCRIPT_URL, {
+  if (FORM_ENDPOINT_URL) {
+    fetch(FORM_ENDPOINT_URL, {
       method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     }).then(function () {
       msg.className = "submit-msg ok";
