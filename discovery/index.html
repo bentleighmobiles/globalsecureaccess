@@ -174,6 +174,7 @@
             <tr><td class="mono">Organization.Read.All</td><td>Your tenant name and domains</td></tr>
           </tbody>
         </table>
+        <p class="hint" style="margin-top:12px;font-size:0.85rem">These are granted once by your admin when the app is approved (admin consent). <code>AuditLog.Read.All</code> (sign-in logs) additionally requires an <strong>Entra ID P1</strong> license — without it, that section simply shows as unavailable.</p>
         <div class="row" style="margin-top:16px">
           <span class="badge teal">Read-only</span>
           <span class="badge teal">Runs in your browser</span>
@@ -187,7 +188,8 @@
         <h2 id="authTitle">Sign in to scan your tenant</h2>
         <p class="hint" id="authHint">You'll grant read-only access to directory, apps, policy, sign-in logs and GSA configuration. Nothing is stored — analysis runs in your browser.</p>
         <div id="authActions" class="row" style="margin-top:18px"></div>
-        <p class="muted" style="margin-top:16px;font-size:0.82rem">Passbeck Discovery is an independent tool and is not affiliated with Microsoft. You sign in with your own Microsoft account and grant read-only access; revoke it anytime from your Entra admin center. Your data is analyzed in your browser and never uploaded, retained, or shared.</p>
+        <p class="muted" style="margin-top:16px;font-size:0.82rem">Passbeck Discovery is an independent tool and is not affiliated with Microsoft. You sign in with your own Microsoft account and grant read-only access. Your data is analyzed in your browser and never uploaded, retained, or shared — <a href="https://github.com/bentleighmobiles/globalsecureaccess" target="_blank" rel="noopener" style="text-decoration:underline">the client-side source is public</a>, so you can verify this yourself.</p>
+        <p class="muted" style="margin-top:8px;font-size:0.82rem"><strong>How to revoke:</strong> Entra admin center → Identity → Applications → <a href="https://entra.microsoft.com/#view/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/~/AppAppsPreview" target="_blank" rel="noopener" style="text-decoration:underline">Enterprise applications</a> → "Passbeck Discovery" → Remove. Or revoke from <a href="https://myaccount.microsoft.com" target="_blank" rel="noopener" style="text-decoration:underline">myaccount.microsoft.com</a>.</p>
       </div>
 
       <!-- results -->
@@ -247,7 +249,7 @@
           <div class="scroll"><table id="onpremTable" style="display:none"><thead><tr><th>Type</th><th>Value</th><th>Label</th></tr></thead><tbody></tbody></table></div>
         </div>
 
-        <div class="panel" style="margin-top:24px" id="errorsPanel" style="display:none">
+        <div class="panel" style="margin-top:24px;display:none" id="errorsPanel">
           <h2 style="color:var(--warn)">Partial results</h2>
           <p class="hint">Some checks couldn't run (usually a missing scope or license).</p>
           <div id="errorsList" style="margin-top:12px"></div>
@@ -374,6 +376,9 @@
     (r.access.topApps || []).forEach(function (a) {
       tab.innerHTML += '<tr><td>' + esc(a.name) + "</td><td>" + a.count + "</td></tr>";
     });
+    if (!(r.access.topApps || []).length) {
+      tab.innerHTML = '<tr><td colspan="2" class="muted">No sign-in data returned — AuditLog.Read.All not granted, or no Entra ID P1 license.</td></tr>';
+    }
 
     // CA
     var cab = document.querySelector("#caTable tbody");
@@ -382,6 +387,9 @@
       var badge = p.state === "enabled" ? '<span class="badge teal">enabled</span>' : '<span class="badge gray">' + esc(p.state || "—") + "</span>";
       cab.innerHTML += '<tr><td>' + esc(p.name) + "</td><td>" + badge + "</td></tr>";
     });
+    if (!(r.posture.policies || []).length) {
+      cab.innerHTML = '<tr><td colspan="2" class="muted">No Conditional Access policies found in this tenant.</td></tr>';
+    }
 
     // vendor
     document.getElementById("vendorLine").textContent = r.vendor.detected
