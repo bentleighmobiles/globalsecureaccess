@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GSA + Windows 365 / Azure Virtual Desktop Guide | Passbeck</title>
+<meta name="description" content="Connect Windows 365 Cloud PCs and Azure Virtual Desktop to on-prem apps with Entra Private Access — no Azure Network Connection VPN, no inbound exposure — plus GSA Internet Access and Conditional Access." />
+<link rel="canonical" href="https://passbeck.com/resources/windows-365.html" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Passbeck" />
+<meta property="og:url" content="https://passbeck.com/resources/windows-365.html" />
+<meta property="og:title" content="GSA + Windows 365 / Azure Virtual Desktop Guide | Passbeck" />
+<meta property="og:description" content="Connect Windows 365 Cloud PCs and Azure Virtual Desktop to on-prem apps with Entra Private Access — no Azure Network Connection VPN, no inbound exposure — plus GSA Internet Access and Conditional Access." />
+<meta property="og:image" content="https://passbeck.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="GSA + Windows 365 / Azure Virtual Desktop Guide | Passbeck" />
+<meta name="twitter:description" content="Connect Windows 365 Cloud PCs and Azure Virtual Desktop to on-prem apps with Entra Private Access — no Azure Network Connection VPN, no inbound exposure — plus GSA Internet Access and Conditional Access." />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"GSA + Windows 365 / Azure Virtual Desktop Guide","description":"Connect Windows 365 Cloud PCs and Azure Virtual Desktop to on-prem apps with Entra Private Access — no Azure Network Connection VPN, no inbound exposure — plus GSA Internet Access and Conditional Access.","author":{"@type":"Organization","name":"Passbeck"},"publisher":{"@type":"Organization","name":"Passbeck"},"mainEntityOfPage":"https://passbeck.com/resources/windows-365.html"}
+</script>
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="../index.html">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 1000 374.3" fill="currentColor" style="width:22px;height:8px"><path d="M357.54 0 L0 374.3 L408.83 374.3 L434.08 261.56 L417.6 198.5 L449.72 59.43 Z"/><path d="M599.55 12.57 L506.49 75.24 L537.81 227.06 L469.27 374.3 L1000 374.3 Z"/></svg>
+      </span>
+      <span>Passbeck<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="../index.html#services">What we do</a>
+      <a href="../index.html#why">Why us</a>
+      <a href="../index.html#process">How it works</a>
+      <a href="index.html">Resources</a>
+      <a href="../discovery/">Discovery</a>
+      <a href="../assessment.html" class="btn btn-primary nav-cta">GSA Assessment</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="guide-hero">
+    <div class="wrap">
+      <span class="kicker">GSA integration guide</span>
+      <h1>Global Secure Access + Windows 365 / Azure Virtual Desktop</h1>
+      <p class="sub">Cloud PCs don't need a VPN or an Azure Network Connection to reach your on-prem apps. GSA Private Access gives Windows 365 and Azure Virtual Desktop an outbound-only path to internal resources — plus a secure path to the internet.</p>
+      <div class="vrow"><span class="vswatch" style="background:#0078d4"></span> Windows 365 · Azure Virtual Desktop · Microsoft</div>
+    </div>
+  </section>
+
+  <section class="guide-body">
+    <div class="wrap">
+      <div class="guide-grid">
+        <div class="own-panel gsa">
+          <h2>GSA owns</h2>
+          <ul>
+            <li>Private access to on-prem apps via Entra Private Access connectors</li>
+            <li>Cloud PC internet egress through GSA Internet Access (SWG)</li>
+            <li>Identity + Conditional Access enforcement (MFA, device compliance, sign-in risk)</li>
+          </ul>
+        </div>
+        <div class="own-panel vendor">
+          <h2>The legacy approach owns</h2>
+          <ul>
+            <li>Azure Network Connection (ANC) + VPN Gateway / ExpressRoute</li>
+            <li>Inbound network exposure to on-prem (VPN endpoints)</li>
+            <li>Hybrid Azure AD Join line-of-sight to domain controllers</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="guide-step"><h3><span class="sn">01</span>Inventory what Cloud PCs actually need on-prem</h3><p>List the file servers, LOB apps and line-of-business systems your Cloud PC users touch. Everything except domain-controller line-of-sight is a candidate for Private Access.</p></div>
+      <div class="guide-step"><h3><span class="sn">02</span>Deploy Entra Private Access connectors</h3><p>Install the connector group on-prem. Connectors dial out to the GSA service — no inbound firewall rules, nothing exposed to the internet.</p></div>
+      <div class="guide-step"><h3><span class="sn">03</span>Publish on-prem apps to Cloud PC users</h3><p>Create Private Access apps and segments for each on-prem resource and assign them to your Cloud PC user groups. Access follows identity + device posture, not network location.</p></div>
+      <div class="guide-step"><h3><span class="sn">04</span>Phase out the ANC and VPN</h3><p>Shrink the Azure Network Connection and VPN to only what still needs raw line-of-sight (e.g. Hybrid Join DC connectivity), then retire it as each dependency migrates.</p></div>
+
+      <div class="callout"><b>When to use:</b> you're provisioning Windows 365 Enterprise or Azure Virtual Desktop and want Cloud PCs to reach on-prem apps without standing up an Azure Network Connection, VPN Gateway or ExpressRoute — or you're replacing an existing VDI VPN with GSA.</div>
+      <p class="src-link">Reference: <a href="https://learn.microsoft.com/en-us/entra/global-secure-access/concept-private-access">Microsoft Learn — Global Secure Access Private Access</a></p>
+      <p class="byline">By <strong>Passbeck architecture team</strong></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="../index.html">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 1000 374.3" fill="currentColor" style="width:22px;height:8px"><path d="M357.54 0 L0 374.3 L408.83 374.3 L434.08 261.56 L417.6 198.5 L449.72 59.43 Z"/><path d="M599.55 12.57 L506.49 75.24 L537.81 227.06 L469.27 374.3 L1000 374.3 Z"/></svg>
+      </span>
+      <span>Passbeck<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <div class="foot-links"><a href="../privacy.html">Privacy</a> · <a href="../terms.html">Terms</a></div>
+    <p class="disc"><strong>Disclaimer:</strong> Passbeck is an independent consultancy and is not affiliated with, endorsed by, or sponsored by Microsoft Corporation. Microsoft, Windows 365, Azure Virtual Desktop, Entra, Azure AD, and related marks are trademarks of Microsoft. All product names are used for identification only.</p>
+  </div>
+</footer>
+
+<script src="../assets/site.js"></script>
+</body>
+</html>
