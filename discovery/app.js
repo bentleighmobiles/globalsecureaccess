@@ -13,7 +13,7 @@
   var VENDORS = [
     { key: "zscaler",  name: "Zscaler",              markers: ["zscaler", "zpa", "zia"], guide: "zscaler.html" },
     { key: "umbrella", name: "Cisco Umbrella",       markers: ["umbrella", "opendns"],   guide: "cisco-umbrella.html" },
-    { key: "ciscoSA",  name: "Cisco Secure Access",  markers: ["secure access", "secureconnect"], guide: "cisco-secure-access.html" },
+    { key: "ciscoSA",  name: "Cisco Secure Access",  markers: ["cisco secure access", "secureconnect", "cisco+"], guide: "cisco-secure-access.html" },
     { key: "ciscoVPN", name: "Cisco VPN",            markers: ["anyconnect", "cisco secure client", "asa vpn"], guide: "cisco-vpn.html" },
     { key: "netskope", name: "Netskope",             markers: ["netskope"],              guide: "netskope.html" },
     { key: "prisma",   name: "Prisma Access",        markers: ["prisma", "globalprotect", "palo alto"], guide: "palo-alto.html" },
@@ -122,13 +122,21 @@
       (sps.value || []).forEach(function (sp) {
         if (sp.servicePrincipalType === "Application") spMap[sp.appId] = sp;
       });
+      function isMicrosoft(name, appId, tags) {
+        var n = (name || "").toLowerCase();
+        var t = tags || [];
+        if (t.indexOf("WindowsAzureActiveDirectoryIntegratedApp") >= 0) return true;
+        if (/^0000000[0-9a-f]/.test(appId || "")) return true; // Microsoft first-party appId range
+        if ((name || "").indexOf("GSA-") === 0) return true;      // Microsoft GSA traffic-forwarding apps
+        return /(^|\b)(microsoft|office|azure|teams|sharepoint|windows|intune|dynamics|skype|powerapps|power platform|sway|viva|onedrive|outlook)\b/.test(n);
+      }
       var apps = [];
       Object.keys(spMap).forEach(function (appId) {
         var sp = spMap[appId];
-        apps.push({ name: sp.displayName, appId: appId, kind: "enterprise-app" });
+        apps.push({ name: sp.displayName, appId: appId, kind: "enterprise-app", microsoft: isMicrosoft(sp.displayName, appId, sp.tags) });
       });
       (regs.value || []).forEach(function (reg) {
-        if (!spMap[reg.appId]) apps.push({ name: reg.displayName, appId: reg.appId, kind: "app-registration" });
+        if (!spMap[reg.appId]) apps.push({ name: reg.displayName, appId: reg.appId, kind: "app-registration", microsoft: isMicrosoft(reg.displayName, reg.appId, null) });
       });
       r.apps = apps;
     });
@@ -193,7 +201,12 @@
 
   // ---------- vendor detection ----------
   function detectVendor(r) {
-    var haystack = (r.apps || []).map(function (a) { return (a.name || "").toLowerCase(); });
+    var haystack = (r.apps || [])
+      .filter(function (a) {
+        var n = (a.name || "").toLowerCase();
+        return n.indexOf("microsoft") < 0 && n.indexOf("global secure access") < 0;
+      })
+      .map(function (a) { return (a.name || "").toLowerCase(); });
     if (r.access && r.access.clientApps) {
       haystack = haystack.concat(r.access.clientApps.map(function (c) { return (c.client || "").toLowerCase(); }));
     }
