@@ -437,3 +437,7 @@ footer { background: var(--navy); color: #8aa0b8; padding: 44px 0; font-size: 0.
   .reveal { opacity: 1; transform: none; transition: none; }
   .diagram .flow { animation: none; }
 }
+.byline { margin-top:14px; font-size:0.85rem; color:var(--ink-soft); }
+.foot-links { font-size:0.85rem; }
+.foot-links a { text-decoration:underline; text-underline-offset:2px; }
+.foot-links a:hover { color:#eaf2f9; }

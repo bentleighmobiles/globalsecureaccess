@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Privacy Policy | Passbeck</title>
+<meta name="description" content="How Passbeck handles your data: what the assessment form collects, what the Discovery tool reads in your tenant, and how long anything is retained." />
+<link rel="canonical" href="https://passbeck.com/privacy.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="Passbeck home">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </span>
+      <span>Passbeck<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html#services">What we do</a>
+      <a href="index.html#why">Why us</a>
+      <a href="index.html#process">How it works</a>
+      <a href="resources/">Resources</a>
+      <a href="discovery/">Discovery</a>
+      <a href="assessment.html" class="btn btn-primary nav-cta">GSA Assessment</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow"><span class="dot"></span> Legal</span>
+      <h1>Privacy policy</h1>
+      <p class="sub">We're an independent security consultancy, so we take data minimisation seriously. Here's exactly what we collect, what we read, and how long we keep it.</p>
+    </div>
+  </section>
+
+  <section style="padding:64px 0 96px">
+    <div class="wrap" style="max-width:760px">
+      <h2>Who we are</h2>
+      <p>Passbeck is an independent security architecture consultancy. For data requests or questions, contact <a href="mailto:hello@passbeck.com">hello@passbeck.com</a>.</p>
+
+      <h2>The assessment form</h2>
+      <p>If you complete the GSA Impact Assessment, we collect what you type in: your <strong>name, work email, company, optional note, and your assessment answers</strong> (current stack, scale, and the recommendation you were shown). We use this solely to respond to you and, if you become a client, to scope the engagement. We don't use it for marketing and don't share it with third parties.</p>
+
+      <h2>The Discovery tool</h2>
+      <p>Discovery is a read-only scanner. When you sign in, you grant these Microsoft Graph permissions — and only these:</p>
+      <ul style="margin:12px 0 12px 20px;color:var(--ink-soft);line-height:1.9">
+        <li><code>User.Read</code> — your name and email, to sign you in</li>
+        <li><code>Directory.Read.All</code> — your users and groups</li>
+        <li><code>Application.Read.All</code> — your app inventory</li>
+        <li><code>Policy.Read.All</code> — your Conditional Access policies</li>
+        <li><code>AuditLog.Read.All</code> — your sign-in logs (requires Entra ID P1)</li>
+        <li><code>Organization.Read.All</code> — your tenant name and domains</li>
+      </ul>
+      <p>The analysis runs <strong>entirely in your browser</strong>. Your data is <strong>never uploaded to our servers, never stored, and never seen by us</strong>. Nothing persists after you close the tab. You can revoke access at any time from your Entra admin centre.</p>
+
+      <h2>Retention</h2>
+      <p><strong>Discovery tool: none.</strong> We retain nothing — the scan is stateless and client-side.</p>
+      <p><strong>Assessment form:</strong> we keep your submission only as long as needed to respond, and — if you become a client — for the duration of the engagement.</p>
+
+      <h2>Cookies and storage</h2>
+      <p>We don't use tracking or advertising cookies. The site and Discovery tool may store a single <strong>local preference</strong> (your dark/light theme choice) in your browser's local storage; it's never sent to us.</p>
+
+      <h2>Your rights</h2>
+      <p>You can request access to, correction of, or deletion of any personal data we hold about you by emailing <a href="mailto:hello@passbeck.com">hello@passbeck.com</a>. We respond within 30 days.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="index.html">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </span>
+      <span>Passbeck<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <div class="foot-links">
+      <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
+    </div>
+    <p class="disc"><strong>Disclaimer:</strong> Passbeck is an independent consultancy and is not affiliated with, endorsed by, or sponsored by Microsoft Corporation. Microsoft, Entra, Azure AD, and related marks are trademarks of Microsoft. All product names are used for identification only.</p>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
