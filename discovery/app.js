@@ -25,6 +25,12 @@
 
   // ---------- MSAL ----------
   var msalInstance = null;
+  var initPromise = null;
+  function ensureInitialized() {
+    if (!msalInstance) return Promise.resolve();
+    if (!initPromise) initPromise = msalInstance.initialize();
+    return initPromise;
+  }
   function initMsal() {
     if (NOT_CONFIGURED) return null;
     var redirectUri = CONFIG.redirectUri === "auto" ? window.location.href.split("#")[0] : CONFIG.redirectUri;
@@ -41,7 +47,9 @@
 
   function login() {
     if (!msalInstance) return;
-    msalInstance.loginRedirect({ scopes: CONFIG.scopes }).catch(function (e) {
+    ensureInitialized().then(function () {
+      return msalInstance.loginRedirect({ scopes: CONFIG.scopes });
+    }).catch(function (e) {
       ui.error("Sign-in failed: " + (e && e.message ? e.message : e));
     });
   }
@@ -50,6 +58,7 @@
 
   async function handleRedirect() {
     if (NOT_CONFIGURED || !msalInstance) return false;
+    await ensureInitialized();
     try {
       var resp = await msalInstance.handleRedirectPromise();
       if (resp && resp.account) msalInstance.setActiveAccount(resp.account);
@@ -61,6 +70,7 @@
   }
 
   async function getToken() {
+    await ensureInitialized();
     var account = msalInstance.getActiveAccount();
     var req = { scopes: CONFIG.scopes, account: account };
     try {
