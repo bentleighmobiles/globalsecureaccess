@@ -3,7 +3,7 @@
    The app reads these at runtime; nothing else needs editing. */
 window.GSA_DISCOVERY_CONFIG = {
   // Application (client) ID from Entra admin center → App registrations.
-  clientId: "YOUR_CLIENT_ID",
+  clientId: "919dbe06-0d2c-4e70-aa32-020518650ac3",
 
   // Which tenants can sign in. Options:
   //   "https://login.microsoftonline.com/common"          — any Microsoft 365 / Entra tenant
@@ -15,7 +15,7 @@ window.GSA_DISCOVERY_CONFIG = {
   // "Authentication → Redirect URIs" (SPA platform). Leave "auto" to use the
   // current page URL, or hardcode the deployed URL, e.g.
   //   "https://bentleighmobiles.github.io/globalsecureaccess/discovery/"
-  redirectUri: "auto",
+  redirectUri: "https://passbeck.com/discovery/",
 
   // Delegated read-only Graph scopes the discovery needs.
   scopes: [
