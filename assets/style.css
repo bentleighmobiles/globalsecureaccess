@@ -4,7 +4,7 @@
   --navy: #081629;
   --navy-2: #0c1f3a;
   --accent: #14b8a6;
-  --accent-strong: #0b7f74;
+  --accent-strong: #0a756b;
   --accent-soft: rgba(20, 184, 166, 0.12);
   --sky: #38bdf8;
   --sky-soft: rgba(56, 189, 248, 0.12);
@@ -89,10 +89,11 @@ header {
 .eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
   font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.06em;
-  color: var(--accent-strong); background: var(--accent-soft);
+  color: var(--accent); background: var(--accent-soft);
   padding: 7px 13px; border-radius: 999px; margin-bottom: 26px;
 }
 .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(20,184,166,0.2); }
+.page-hero .eyebrow { color: var(--accent-strong); }
 .hero h1 {
   font-size: clamp(2.3rem, 5.2vw, 3.9rem); line-height: 1.06; letter-spacing: -0.025em;
   font-weight: 800; max-width: 16ch;
@@ -154,7 +155,7 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); letter-spacing: -0.02em; line-heig
 .card .icon svg { width: 20px; height: 20px; }
 .card h3 { font-size: 1.08rem; letter-spacing: -0.01em; margin-bottom: 9px; }
 .card p { color: var(--ink-soft); font-size: 0.94rem; }
-.card .tag { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.7rem; color: var(--accent-strong); background: var(--accent-soft); padding: 4px 9px; border-radius: 6px; }
+.card .tag { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.7rem; color: var(--accent); background: var(--accent-soft); padding: 4px 9px; border-radius: 6px; }
 
 /* Why us */
 .why { background: var(--navy); color: #eaf2f9; }
@@ -286,7 +287,7 @@ footer { background: var(--navy); color: #8aa0b8; padding: 44px 0; font-size: 0.
   border: 2px solid #c9d2df; display: grid; place-items: center; transition: all .15s;
 }
 .option .box svg { width: 12px; height: 12px; color: #eaf2f9; opacity: 0; }
-.option.selected { border-color: var(--accent-strong); background: var(--accent-soft); box-shadow: 0 0 0 3px rgba(20,184,166,0.12); }
+.option.selected { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 3px rgba(20,184,166,0.12); }
 .option.selected .box { background: var(--accent); border-color: var(--accent); }
 .option.selected .box svg { opacity: 1; }
 .option .swatch { width: 12px; height: 12px; border-radius: 4px; flex: 0 0 auto; }
@@ -332,7 +333,7 @@ footer { background: var(--navy); color: #8aa0b8; padding: 44px 0; font-size: 0.
 .result-card .rc-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 .result-card .rc-head .badge {
   font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--accent-strong); background: var(--accent-soft); padding: 5px 11px; border-radius: 999px; font-weight: 600;
+  color: var(--accent); background: var(--accent-soft); padding: 5px 11px; border-radius: 999px; font-weight: 600;
 }
 .result-card h3 { font-size: 1.2rem; margin-bottom: 6px; }
 .result-card p { color: var(--ink-soft); font-size: 0.95rem; }
