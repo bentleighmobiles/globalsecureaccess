@@ -2,7 +2,7 @@
    Two modes: "adopt" (switching to GSA) and "review" (already running GSA).
    Set FORM_ENDPOINT_URL to your Google Apps Script Web App /exec URL to capture
    leads into Google Sheets (see lead-api/apps-script.gs). Empty = mailto fallback. */
-var FORM_ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbwkeRp85G8-DXyQafFJmUpDGiXkgeIIaHIEbLz-bVZKn1CalIb4uLE0-DQQR5MdfzIu/exec";
+var FORM_ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbxo6MppLlcuh36WEXJqa--wjYKyQKlpqpmcIh8Hnv2t_qxAB5K7Lo8M1HO9Yg9wNtI/exec";
 
 var MODES = [
   { value: "adopt",  label: "We're adopting GSA", meta: "Planning or mid-way through a GSA rollout" },
