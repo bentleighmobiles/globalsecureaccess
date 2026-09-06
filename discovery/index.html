@@ -115,11 +115,47 @@
 <main>
   <section>
     <div class="wrap">
+      <!-- What this does -->
+      <div class="panel">
+        <h2>What this tool does</h2>
+        <p class="hint" style="margin-bottom:8px">A read-only scan of your Microsoft 365 tenant that maps your network access landscape, so you can see what changes if you move to Secure Access.</p>
+        <div class="grid" style="margin-top:8px">
+          <div class="card" style="margin-top:0"><h3>App inventory</h3><p>Every enterprise app + app registration, with SSO state.</p></div>
+          <div class="card" style="margin-top:0"><h3>Access patterns</h3><p>Top apps by sign-in, remote vs on-prem, risky sign-ins.</p></div>
+          <div class="card" style="margin-top:0"><h3>Zero Trust posture</h3><p>Conditional Access policies — enabled, disabled, gaps.</p></div>
+          <div class="card" style="margin-top:0"><h3>Vendor detection</h3><p>Zscaler, Cisco, Netskope, Prisma… and your coexistence path.</p></div>
+        </div>
+      </div>
+
+      <!-- What we read -->
+      <div class="panel" style="margin-top:24px">
+        <h2>What we read — and why</h2>
+        <p class="hint" style="margin-bottom:8px">You sign in with Microsoft and grant <strong>read-only</strong> access. We never modify anything.</p>
+        <table>
+          <thead><tr><th>Permission</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">User.Read</td><td>Your name and email — to sign you in</td></tr>
+            <tr><td class="mono">Directory.Read.All</td><td>Your users and groups</td></tr>
+            <tr><td class="mono">Application.Read.All</td><td>Your app inventory</td></tr>
+            <tr><td class="mono">Policy.Read.All</td><td>Your Conditional Access policies</td></tr>
+            <tr><td class="mono">AuditLog.Read.All</td><td>Your sign-in logs (access patterns)</td></tr>
+            <tr><td class="mono">Organization.Read.All</td><td>Your tenant name and domains</td></tr>
+          </tbody>
+        </table>
+        <div class="row" style="margin-top:16px">
+          <span class="badge teal">Read-only</span>
+          <span class="badge teal">Runs in your browser</span>
+          <span class="badge teal">Nothing stored</span>
+          <span class="badge teal">Revocable anytime</span>
+        </div>
+      </div>
+
       <!-- sign-in / auth state -->
-      <div class="panel" id="authPanel">
+      <div class="panel" id="authPanel" style="margin-top:24px">
         <h2 id="authTitle">Sign in to scan your tenant</h2>
         <p class="hint" id="authHint">You'll grant read-only access to directory, apps, policy, sign-in logs and GSA configuration. Nothing is stored — analysis runs in your browser.</p>
         <div id="authActions" class="row" style="margin-top:18px"></div>
+        <p class="muted" style="margin-top:16px;font-size:0.82rem">Passbeck Discovery is an independent tool and is not affiliated with Microsoft. You sign in with your own Microsoft account and grant read-only access; revoke it anytime from your Entra admin center. Your data is analyzed in your browser and never uploaded, retained, or shared.</p>
       </div>
 
       <!-- results -->
