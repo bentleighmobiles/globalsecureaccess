@@ -403,12 +403,12 @@ document.getElementById("leadForm").addEventListener("submit", function (e) {
       msg.textContent = "Thanks " + name.split(" ")[0] + " — your request is in. We'll be in touch within one business day.";
     }).catch(function () {
       msg.className = "submit-msg err";
-      msg.textContent = "Something went wrong. Please email hello@signpostsecurity.com instead.";
+      msg.textContent = "Something went wrong. Please email hello@passbeck.com instead.";
     });
   } else {
     var subject = encodeURIComponent("GSA " + (state.mode === "review" ? "review" : "assessment") + " request — " + (company || name));
     var body = encodeURIComponent(bodyLines.join("\n"));
-    window.location.href = "mailto:hello@signpostsecurity.com?subject=" + subject + "&body=" + body;
+    window.location.href = "mailto:hello@passbeck.com?subject=" + subject + "&body=" + body;
     msg.className = "submit-msg ok";
     msg.textContent = "Opening your email client — hit send and we'll take it from there.";
   }
