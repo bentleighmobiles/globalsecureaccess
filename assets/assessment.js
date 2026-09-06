@@ -1,7 +1,8 @@
 /* GSA Impact Assessment — wizard logic, before/after diagram, lead capture.
    Two modes: "adopt" (switching to GSA) and "review" (already running GSA).
-   Configure the form endpoint URL below to enable live capture (e.g. a Power Automate flow writing to Excel / a SharePoint List). */
-var FORM_ENDPOINT_URL = ""; // e.g. "https://prod-XX.australiasoutheast.logic.azure.com/workflows/..."
+   Set FORM_ENDPOINT_URL to your Google Apps Script Web App /exec URL to capture
+   leads into Google Sheets (see lead-api/apps-script.gs). Empty = mailto fallback. */
+var FORM_ENDPOINT_URL = ""; // e.g. "https://script.google.com/macros/s/.../exec"
 
 var MODES = [
   { value: "adopt",  label: "We're adopting GSA", meta: "Planning or mid-way through a GSA rollout" },
@@ -395,7 +396,7 @@ document.getElementById("leadForm").addEventListener("submit", function (e) {
   if (FORM_ENDPOINT_URL) {
     fetch(FORM_ENDPOINT_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
       body: JSON.stringify(payload)
     }).then(function () {
       msg.className = "submit-msg ok";
