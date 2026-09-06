@@ -33,7 +33,7 @@
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="../index.html" aria-label="Passbeck home">
+    <a class="brand" href="../index.html">
       <span class="mark" aria-hidden="true">
         <svg viewBox="0 0 1000 374.3" fill="currentColor" style="width:22px;height:8px"><path d="M357.54 0 L0 374.3 L408.83 374.3 L434.08 261.56 L417.6 198.5 L449.72 59.43 Z"/><path d="M599.55 12.57 L506.49 75.24 L537.81 227.06 L469.27 374.3 L1000 374.3 Z"/></svg>
       </span>
@@ -67,7 +67,7 @@
     <div class="wrap">
       <div class="guide-grid">
         <div class="own-panel gsa">
-          <h3>GSA owns</h3>
+          <h2>GSA owns</h2>
           <ul>
             <li>Private access to on-prem / legacy apps (Entra Private Access)</li>
             <li>Microsoft 365 traffic</li>
@@ -75,7 +75,7 @@
           </ul>
         </div>
         <div class="own-panel vendor">
-          <h3>Cisco Secure Access owns (during coexistence)</h3>
+          <h2>Cisco Secure Access owns (during coexistence)</h2>
           <ul>
             <li>Secure Internet Access (SWG / DNS security)</li>
             <li>Zero Trust Access for apps you're not yet moving</li>
@@ -83,10 +83,10 @@
         </div>
       </div>
 
-      <div class="guide-step"><h4><span class="sn">01</span>Split internet vs private</h4><p>Keep Secure Internet Access for internet/SaaS; point private app access at Entra Private Access. Decide the boundary explicitly.</p></div>
-      <div class="guide-step"><h4><span class="sn">02</span>Align steering rules</h4><p>Make sure Cisco Secure Access steering and GSA forwarding profiles don't fight over the same traffic.</p></div>
-      <div class="guide-step"><h4><span class="sn">03</span>Publish private apps through GSA</h4><p>Deploy the Entra Private Network Connector and publish apps with Quick Access.</p></div>
-      <div class="guide-step"><h4><span class="sn">04</span>Migrate Zero Trust Access apps gradually</h4><p>Move ZTA-published apps to GSA app by app, then retire the overlap when it's empty.</p></div>
+      <div class="guide-step"><h3><span class="sn">01</span>Split internet vs private</h3><p>Keep Secure Internet Access for internet/SaaS; point private app access at Entra Private Access. Decide the boundary explicitly.</p></div>
+      <div class="guide-step"><h3><span class="sn">02</span>Align steering rules</h3><p>Make sure Cisco Secure Access steering and GSA forwarding profiles don't fight over the same traffic.</p></div>
+      <div class="guide-step"><h3><span class="sn">03</span>Publish private apps through GSA</h3><p>Deploy the Entra Private Network Connector and publish apps with Quick Access.</p></div>
+      <div class="guide-step"><h3><span class="sn">04</span>Migrate Zero Trust Access apps gradually</h3><p>Move ZTA-published apps to GSA app by app, then retire the overlap when it's empty.</p></div>
 
       <div class="callout"><b>When to use:</b> you're on Cisco Secure Access for internet security and want Entra-native private access, consolidating toward Microsoft without a big-bang migration.</div>
       <p class="src-link">Full configuration: <a href="https://learn.microsoft.com/en-us/entra/global-secure-access/how-to-cisco-secure-access-coexistence">Microsoft Learn — GSA + Cisco Secure Access coexistence</a></p>

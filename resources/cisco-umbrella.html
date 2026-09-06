@@ -33,7 +33,7 @@
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="../index.html" aria-label="Passbeck home">
+    <a class="brand" href="../index.html">
       <span class="mark" aria-hidden="true">
         <svg viewBox="0 0 1000 374.3" fill="currentColor" style="width:22px;height:8px"><path d="M357.54 0 L0 374.3 L408.83 374.3 L434.08 261.56 L417.6 198.5 L449.72 59.43 Z"/><path d="M599.55 12.57 L506.49 75.24 L537.81 227.06 L469.27 374.3 L1000 374.3 Z"/></svg>
       </span>
@@ -67,7 +67,7 @@
     <div class="wrap">
       <div class="guide-grid">
         <div class="own-panel gsa">
-          <h3>GSA owns</h3>
+          <h2>GSA owns</h2>
           <ul>
             <li>Private access to on-prem / legacy apps (Entra Private Access)</li>
             <li>Microsoft 365 traffic</li>
@@ -75,7 +75,7 @@
           </ul>
         </div>
         <div class="own-panel vendor">
-          <h3>Cisco Umbrella owns (during coexistence)</h3>
+          <h2>Cisco Umbrella owns (during coexistence)</h2>
           <ul>
             <li>DNS-layer security (first-hop resolution and filtering)</li>
             <li>Secure Web Gateway, where in use</li>
@@ -83,9 +83,9 @@
         </div>
       </div>
 
-      <div class="guide-step"><h4><span class="sn">01</span>Keep Umbrella as your DNS layer</h4><p>Umbrella continues resolving and filtering DNS at the first hop — GSA doesn't need to take that over for coexistence to work.</p></div>
-      <div class="guide-step"><h4><span class="sn">02</span>Steer internet via Umbrella, private via GSA</h4><p>Route internet/SaaS traffic through Umbrella's SWG while GSA handles private apps and M365 — the two don't overlap.</p></div>
-      <div class="guide-step"><h4><span class="sn">03</span>Publish private apps through GSA</h4><p>Deploy the Entra Private Network Connector and publish your on-prem apps with Quick Access, alongside Umbrella's internet path.</p></div>
+      <div class="guide-step"><h3><span class="sn">01</span>Keep Umbrella as your DNS layer</h3><p>Umbrella continues resolving and filtering DNS at the first hop — GSA doesn't need to take that over for coexistence to work.</p></div>
+      <div class="guide-step"><h3><span class="sn">02</span>Steer internet via Umbrella, private via GSA</h3><p>Route internet/SaaS traffic through Umbrella's SWG while GSA handles private apps and M365 — the two don't overlap.</p></div>
+      <div class="guide-step"><h3><span class="sn">03</span>Publish private apps through GSA</h3><p>Deploy the Entra Private Network Connector and publish your on-prem apps with Quick Access, alongside Umbrella's internet path.</p></div>
 
       <div class="callout"><b>When to use:</b> you rely on Umbrella for DNS/SWG but want Entra-native private access — a natural fit, since the two platforms sit at different layers.</div>
       <p class="src-link">Full configuration: <a href="https://learn.microsoft.com/en-us/entra/global-secure-access/how-to-cisco-coexistence">Microsoft Learn — GSA + Cisco Umbrella coexistence</a></p>

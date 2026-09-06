@@ -33,7 +33,7 @@
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="../index.html" aria-label="Passbeck home">
+    <a class="brand" href="../index.html">
       <span class="mark" aria-hidden="true">
         <svg viewBox="0 0 1000 374.3" fill="currentColor" style="width:22px;height:8px"><path d="M357.54 0 L0 374.3 L408.83 374.3 L434.08 261.56 L417.6 198.5 L449.72 59.43 Z"/><path d="M599.55 12.57 L506.49 75.24 L537.81 227.06 L469.27 374.3 L1000 374.3 Z"/></svg>
       </span>
@@ -67,7 +67,7 @@
     <div class="wrap">
       <div class="guide-grid">
         <div class="own-panel gsa">
-          <h3>GSA owns</h3>
+          <h2>GSA owns</h2>
           <ul>
             <li>Private access to on-prem / legacy apps (Entra Private Access)</li>
             <li>Microsoft 365 traffic</li>
@@ -75,7 +75,7 @@
           </ul>
         </div>
         <div class="own-panel vendor">
-          <h3>Prisma Access owns (during coexistence)</h3>
+          <h2>Prisma Access owns (during coexistence)</h2>
           <ul>
             <li>Internet and SaaS traffic (SASE / GlobalProtect)</li>
             <li>Private apps still served by GlobalProtect</li>
@@ -83,10 +83,10 @@
         </div>
       </div>
 
-      <div class="guide-step"><h4><span class="sn">01</span>Choose tunnel-based or split-tunnel coexistence</h4><p>Decide whether Prisma stays full-tunnel for internet while GSA handles private, or you split-tunnel so each platform sees only its traffic.</p></div>
-      <div class="guide-step"><h4><span class="sn">02</span>Configure selective routing</h4><p>Route private + M365 destinations to GSA; keep internet/SaaS on Prisma. Align so no destination is double-routed.</p></div>
-      <div class="guide-step"><h4><span class="sn">03</span>Publish private apps through GSA</h4><p>Deploy the Entra Private Network Connector and publish apps with Quick Access.</p></div>
-      <div class="guide-step"><h4><span class="sn">04</span>Migrate GlobalProtect-served apps gradually</h4><p>Move apps from GlobalProtect to GSA one at a time, then decommission the overlap.</p></div>
+      <div class="guide-step"><h3><span class="sn">01</span>Choose tunnel-based or split-tunnel coexistence</h3><p>Decide whether Prisma stays full-tunnel for internet while GSA handles private, or you split-tunnel so each platform sees only its traffic.</p></div>
+      <div class="guide-step"><h3><span class="sn">02</span>Configure selective routing</h3><p>Route private + M365 destinations to GSA; keep internet/SaaS on Prisma. Align so no destination is double-routed.</p></div>
+      <div class="guide-step"><h3><span class="sn">03</span>Publish private apps through GSA</h3><p>Deploy the Entra Private Network Connector and publish apps with Quick Access.</p></div>
+      <div class="guide-step"><h3><span class="sn">04</span>Migrate GlobalProtect-served apps gradually</h3><p>Move apps from GlobalProtect to GSA one at a time, then decommission the overlap.</p></div>
 
       <div class="callout"><b>When to use:</b> you're invested in Prisma Access / GlobalProtect but want Entra-native private access and Conditional Access — consolidating toward Microsoft gradually.</div>
       <p class="src-link">Full configuration: <a href="https://learn.microsoft.com/en-us/entra/global-secure-access/how-to-palo-alto-coexistence">Microsoft Learn — GSA + Palo Alto coexistence</a></p>

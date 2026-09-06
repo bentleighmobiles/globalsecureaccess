@@ -33,7 +33,7 @@
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="../index.html" aria-label="Passbeck home">
+    <a class="brand" href="../index.html">
       <span class="mark" aria-hidden="true">
         <svg viewBox="0 0 1000 374.3" fill="currentColor" style="width:22px;height:8px"><path d="M357.54 0 L0 374.3 L408.83 374.3 L434.08 261.56 L417.6 198.5 L449.72 59.43 Z"/><path d="M599.55 12.57 L506.49 75.24 L537.81 227.06 L469.27 374.3 L1000 374.3 Z"/></svg>
       </span>
@@ -67,7 +67,7 @@
     <div class="wrap">
       <div class="guide-grid">
         <div class="own-panel gsa">
-          <h3>GSA owns</h3>
+          <h2>GSA owns</h2>
           <ul>
             <li>Private access to on-prem / legacy apps (Entra Private Access)</li>
             <li>Microsoft 365 traffic</li>
@@ -75,7 +75,7 @@
           </ul>
         </div>
         <div class="own-panel vendor">
-          <h3>Zscaler owns (during coexistence)</h3>
+          <h2>Zscaler owns (during coexistence)</h2>
           <ul>
             <li>Internet and SaaS traffic via ZIA (SWG)</li>
             <li>ZPA-published private apps you're not ready to move</li>
@@ -83,10 +83,10 @@
         </div>
       </div>
 
-      <div class="guide-step"><h4><span class="sn">01</span>Decide the traffic split</h4><p>Agree which workloads GSA owns and which Zscaler keeps. Typically: GSA for private + M365, Zscaler for internet/SaaS — or the inverse if you're rolling out Internet Access first.</p></div>
-      <div class="guide-step"><h4><span class="sn">02</span>Align forwarding so they don't double-route</h4><p>Configure Zscaler forwarding profiles (and PAC files where used) so traffic is steered to exactly one platform — no hairpinning or double inspection.</p></div>
-      <div class="guide-step"><h4><span class="sn">03</span>Publish private apps through GSA</h4><p>Deploy the Entra Private Network Connector and publish apps with Quick Access — Zscaler keeps the internet, GSA handles private, side by side.</p></div>
-      <div class="guide-step"><h4><span class="sn">04</span>Cut over app by app</h4><p>Migrate ZPA-published apps to GSA incrementally, then decommission the overlap when you're ready. No big-bang rip-and-replace.</p></div>
+      <div class="guide-step"><h3><span class="sn">01</span>Decide the traffic split</h3><p>Agree which workloads GSA owns and which Zscaler keeps. Typically: GSA for private + M365, Zscaler for internet/SaaS — or the inverse if you're rolling out Internet Access first.</p></div>
+      <div class="guide-step"><h3><span class="sn">02</span>Align forwarding so they don't double-route</h3><p>Configure Zscaler forwarding profiles (and PAC files where used) so traffic is steered to exactly one platform — no hairpinning or double inspection.</p></div>
+      <div class="guide-step"><h3><span class="sn">03</span>Publish private apps through GSA</h3><p>Deploy the Entra Private Network Connector and publish apps with Quick Access — Zscaler keeps the internet, GSA handles private, side by side.</p></div>
+      <div class="guide-step"><h3><span class="sn">04</span>Cut over app by app</h3><p>Migrate ZPA-published apps to GSA incrementally, then decommission the overlap when you're ready. No big-bang rip-and-replace.</p></div>
 
       <div class="callout"><b>When to use:</b> you're invested in Zscaler for internet security but want Entra-native private access — or you're consolidating on Entra and want to retire ZPA gradually.</div>
       <p class="src-link">Full configuration: <a href="https://learn.microsoft.com/en-us/entra/global-secure-access/how-to-zscaler-coexistence">Microsoft Learn — GSA + Zscaler coexistence</a></p>
