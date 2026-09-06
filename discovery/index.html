@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GSA Discovery — Scan Your Entra Tenant | Global Secure Access</title>
+<meta name="description" content="Sign in with Microsoft to scan your tenant: app inventory, access patterns, Zero Trust posture, incumbent-vendor detection and your GSA coexistence path." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@3.28.1/lib/msal-browser.min.js"></script>
+<style>
+  :root {
+    --ink:#0a1420; --ink-soft:#46536b; --navy:#081629; --navy-2:#0c1f3a;
+    --accent:#14b8a6; --accent-strong:#0d9488; --accent-soft:rgba(20,184,166,0.12);
+    --sky:#38bdf8; --sky-soft:rgba(56,189,248,0.12);
+    --line:#e6ebf2; --surface:#f5f7fa; --white:#fff;
+    --danger:#b33939; --warn:#b7791f; --ok:#0d9488;
+    --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:var(--font); color:var(--ink); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1120px; margin:0 auto; padding:0 24px; }
+  a { color:inherit; text-decoration:none; }
+  .mono { font-family:var(--mono); }
+
+  header { position:sticky; top:0; z-index:50; background:rgba(255,255,255,0.86); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  .nav { display:flex; align-items:center; justify-content:space-between; height:68px; }
+  .brand { display:flex; align-items:center; gap:11px; font-weight:700; font-size:1.05rem; }
+  .brand .mark { width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--sky)); display:grid; place-items:center; color:#04141b; }
+  .brand .mark svg { width:16px; height:16px; }
+  .brand small { display:block; font-weight:500; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); line-height:1; }
+  .nav a.back { font-weight:500; color:var(--ink-soft); font-size:0.92rem; }
+  .nav a.back:hover { color:var(--ink); }
+
+  .hero { background:radial-gradient(1000px 480px at 80% -10%, rgba(20,184,166,0.16), transparent 60%), var(--navy); color:#eaf2f9; }
+  .hero-inner { padding:72px 0 60px; }
+  .eyebrow { display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:0.78rem; letter-spacing:0.06em; color:var(--accent); background:var(--accent-soft); padding:7px 13px; border-radius:999px; margin-bottom:22px; }
+  .eyebrow .dot { width:7px; height:7px; border-radius:50%; background:var(--accent); }
+  .hero h1 { font-size:clamp(2rem,4.6vw,3.2rem); letter-spacing:-0.025em; font-weight:800; line-height:1.08; max-width:22ch; }
+  .hero h1 .accent { color:var(--accent); }
+  .hero .sub { margin-top:18px; color:#b6c4d6; font-size:1.05rem; max-width:62ch; }
+
+  section { padding:56px 0; }
+  .panel { background:var(--white); border:1px solid var(--line); border-radius:16px; padding:32px; }
+  .panel h2 { font-size:1.3rem; margin-bottom:8px; letter-spacing:-0.01em; }
+  .panel .hint { color:var(--ink-soft); font-size:0.95rem; }
+
+  .btn { display:inline-flex; align-items:center; gap:8px; font-family:var(--font); font-weight:600; font-size:0.95rem; padding:12px 22px; border-radius:10px; border:1px solid transparent; cursor:pointer; transition:transform .12s,background .15s; }
+  .btn:active { transform:translateY(1px); }
+  .btn-primary { background:var(--accent); color:#03201d; box-shadow:0 8px 20px -8px rgba(20,184,166,0.6); }
+  .btn-primary:hover { background:var(--accent-strong); }
+  .btn-ghost { border-color:var(--line); color:var(--ink); background:var(--white); }
+  .btn-ghost:hover { background:var(--surface); }
+  .btn:disabled { opacity:0.5; cursor:not-allowed; box-shadow:none; }
+
+  .notice { border-left:3px solid var(--warn); background:rgba(183,121,31,0.08); padding:16px 20px; border-radius:0 10px 10px 0; font-size:0.92rem; }
+  .notice b { color:var(--warn); }
+  .signedin { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--sky)); display:grid; place-items:center; font-weight:700; color:#04141b; flex:0 0 auto; }
+
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:20px; }
+  .stat { border:1px solid var(--line); border-radius:12px; padding:20px; }
+  .stat .n { font-size:1.8rem; font-weight:800; letter-spacing:-0.02em; }
+  .stat .l { font-size:0.74rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); font-weight:600; margin-top:2px; }
+  .stat.accent .n { color:var(--accent-strong); }
+
+  .card { border:1px solid var(--line); border-radius:14px; padding:22px; margin-top:18px; }
+  .card h3 { font-size:1.05rem; margin-bottom:6px; }
+  .card p { color:var(--ink-soft); font-size:0.94rem; }
+  .badge { display:inline-block; font-family:var(--mono); font-size:0.68rem; letter-spacing:0.06em; text-transform:uppercase; font-weight:600; padding:4px 10px; border-radius:999px; }
+  .badge.teal { background:var(--accent-soft); color:var(--accent-strong); }
+  .badge.gray { background:var(--surface); color:var(--ink-soft); }
+  .badge.red { background:rgba(179,57,57,0.12); color:var(--danger); }
+
+  table { width:100%; border-collapse:collapse; margin-top:14px; font-size:0.9rem; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); }
+  th { font-family:var(--mono); font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-soft); }
+  td .mono { font-size:0.8rem; color:var(--ink-soft); }
+  .scroll { overflow-x:auto; }
+
+  textarea { width:100%; min-height:120px; font-family:var(--mono); font-size:0.85rem; padding:12px; border:1px solid var(--line); border-radius:10px; color:var(--ink); }
+  textarea:focus { outline:none; border-color:var(--accent); }
+  .row { display:flex; gap:12px; margin-top:12px; flex-wrap:wrap; align-items:center; }
+  .muted { color:var(--ink-soft); font-size:0.85rem; }
+
+  footer { background:var(--navy); color:#8aa0b8; padding:40px 0; font-size:0.85rem; }
+  .foot { display:flex; flex-wrap:wrap; gap:16px; justify-content:space-between; }
+
+  @media (max-width:760px) { .grid { grid-template-columns:1fr 1fr; } }
+  @media (max-width:480px) { .grid { grid-template-columns:1fr; } .hero-inner { padding:52px 0 44px; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="../index.html">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+      <span>Global Secure Access<small>Independent Entra GSA specialists</small></span>
+    </a>
+    <a class="back" href="../index.html">&larr; Back to site</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap hero-inner">
+    <span class="eyebrow"><span class="dot"></span> Read-only · no data leaves your browser</span>
+    <h1>See your <span class="accent">network access landscape</span> — before you change it.</h1>
+    <p class="sub">Sign in with Microsoft and scan your own tenant: application inventory, access patterns, Zero Trust posture, incumbent-vendor detection, and your recommended Global Secure Access coexistence path. Plus paste a VPN or firewall export to surface the legacy apps Graph can't see.</p>
+  </div>
+</div>
+
+<main>
+  <section>
+    <div class="wrap">
+      <!-- sign-in / auth state -->
+      <div class="panel" id="authPanel">
+        <h2 id="authTitle">Sign in to scan your tenant</h2>
+        <p class="hint" id="authHint">You'll grant read-only access to directory, apps, policy, sign-in logs and GSA configuration. Nothing is stored — analysis runs in your browser.</p>
+        <div id="authActions" class="row" style="margin-top:18px"></div>
+      </div>
+
+      <!-- results -->
+      <div id="results" style="display:none">
+        <div class="panel" style="margin-top:24px">
+          <div class="signedin">
+            <span class="avatar" id="avatar"></span>
+            <div>
+              <div id="accountLine" style="font-weight:600"></div>
+              <div class="muted" id="tenantLine"></div>
+            </div>
+            <span style="flex:1"></span>
+            <button class="btn btn-primary" id="exportBtn">Download JSON</button>
+          </div>
+
+          <div class="grid" id="statGrid" style="margin-top:22px"></div>
+
+          <div class="card">
+            <h3>Recommended coexistence path</h3>
+            <p id="coexistDesc" style="margin-bottom:10px"></p>
+            <a id="coexistLink" class="badge teal" style="display:none" href="#">Read the coexistence guide &rarr;</a>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:24px">
+          <h2>Application inventory</h2>
+          <p class="hint" id="appsHint"></p>
+          <div class="scroll"><table id="appsTable"><thead><tr><th>App</th><th>App ID</th></tr></thead><tbody></tbody></table></div>
+        </div>
+
+        <div class="panel" style="margin-top:24px">
+          <h2>Sign-in activity &amp; Zero Trust posture</h2>
+          <div class="card" style="margin-top:8px">
+            <h3>Top apps by sign-ins</h3>
+            <div class="scroll"><table id="topAppsTable"><thead><tr><th>App</th><th>Sign-ins (sample)</th></tr></thead><tbody></tbody></table></div>
+          </div>
+          <div class="card">
+            <h3>Conditional Access</h3>
+            <div class="scroll"><table id="caTable"><thead><tr><th>Policy</th><th>State</th></tr></thead><tbody></tbody></table></div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:24px">
+          <h2>Incumbent vendor &amp; GSA status</h2>
+          <div class="card"><h3>Vendor detected</h3><p id="vendorLine"></p></div>
+          <div class="card"><h3>Global Secure Access</h3><p id="gsaLine"></p></div>
+        </div>
+
+        <div class="panel" style="margin-top:24px">
+          <h2>Legacy / on-prem apps <span style="font-weight:400;color:var(--ink-soft)">(Graph can't see these)</span></h2>
+          <p class="hint">Paste a VPN split-tunnel route list or firewall export (CIDRs, hostnames, FQDNs) — one per line, optional label after each.</p>
+          <textarea id="onpremInput" placeholder="10.0.0.0/8 corporate-net&#10;172.16.4.0/24 finance-app&#10;app.internal.corp.com&#10;permit 10.99.0.0/16 erp"></textarea>
+          <div class="row">
+            <button class="btn btn-ghost" id="parseBtn">Parse legacy apps</button>
+            <span class="muted" id="parseCount"></span>
+          </div>
+          <div class="scroll"><table id="onpremTable" style="display:none"><thead><tr><th>Type</th><th>Value</th><th>Label</th></tr></thead><tbody></tbody></table></div>
+        </div>
+
+        <div class="panel" style="margin-top:24px" id="errorsPanel" style="display:none">
+          <h2 style="color:var(--warn)">Partial results</h2>
+          <p class="hint">Some checks couldn't run (usually a missing scope or license).</p>
+          <div id="errorsList" style="margin-top:12px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span class="brand"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><span>Global Secure Access</span></span>
+    <span>Read-only discovery · Not affiliated with Microsoft</span>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script src="parser.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  var ui = {
+    error: function (msg) {
+      var el = document.getElementById("authHint");
+      el.innerHTML = '<span style="color:var(--danger)">' + msg + "</span>";
+    },
+    authState: function (state, account) {
+      var title = document.getElementById("authTitle");
+      var hint = document.getElementById("authHint");
+      var actions = document.getElementById("authActions");
+      actions.innerHTML = "";
+      if (state === "not-configured") {
+        title.textContent = "App not configured yet";
+        hint.innerHTML = '<div class="notice" style="margin-top:14px"><b>Setup needed:</b> open <span class="mono">config.js</span>, set <span class="mono">clientId</span> and <span class="mono">redirectUri</span> from your Azure AD app registration — see <span class="mono">SETUP.md</span>.</div>';
+      } else if (state === "signed-out") {
+        title.textContent = "Sign in to scan your tenant";
+        hint.textContent = "You'll grant read-only access to directory, apps, policy, sign-in logs and GSA configuration. Nothing is stored — analysis runs in your browser.";
+        actions.innerHTML = '<button class="btn btn-primary" id="signInBtn">Sign in with Microsoft</button>';
+        document.getElementById("signInBtn").addEventListener("click", function () { GsaDiscovery.login(); });
+      } else {
+        title.textContent = "Signed in";
+        hint.textContent = "Ready to run discovery against your tenant.";
+        actions.innerHTML = '<button class="btn btn-primary" id="runBtn">Run discovery</button>'
+          + '<button class="btn btn-ghost" id="signOutBtn">Sign out</button>';
+        document.getElementById("runBtn").addEventListener("click", run);
+        document.getElementById("signOutBtn").addEventListener("click", function () { GsaDiscovery.logout(); });
+      }
+    },
+    account: function (a) {
+      document.getElementById("avatar").textContent = (a && a.name ? a.name[0] : "?").toUpperCase();
+      document.getElementById("accountLine").textContent = a ? a.name + " (" + a.username + ")" : "";
+    }
+  };
+
+  // expose ui for app.js's error hook
+  window.ui = ui;
+
+  var result = null;
+
+  async function run() {
+    var btn = document.getElementById("runBtn");
+    btn.disabled = true;
+    btn.textContent = "Scanning…";
+    try {
+      result = await GsaDiscovery.discover();
+      render();
+    } catch (e) {
+      ui.error("Discovery failed: " + (e && e.message ? e.message : e));
+    }
+    btn.disabled = false;
+    btn.textContent = "Run discovery";
+  }
+
+  function render() {
+    document.getElementById("results").style.display = "";
+    var r = result;
+
+    document.getElementById("tenantLine").textContent = r.tenant
+      ? r.tenant.name + " · " + (r.tenant.domains || []).join(", ")
+      : "Tenant unknown";
+
+    // stats
+    var grid = document.getElementById("statGrid");
+    grid.innerHTML = "";
+    var stats = [
+      ["Applications", r.apps.length],
+      ["CA policies", r.posture.caPolicyCount],
+      ["Risky sign-ins (sample)", r.access.riskySignIns || 0],
+      ["Vendor", r.vendor.detected || "None"],
+      ["GSA onboarded", r.gsa.onboarded ? "Yes" : "No"],
+      ["On-prem apps", "—"]
+    ];
+    stats.forEach(function (s) {
+      grid.innerHTML += '<div class="stat"><div class="n">' + s[1] + '</div><div class="l">' + s[0] + "</div></div>";
+    });
+
+    // coexistence
+    document.getElementById("coexistDesc").textContent = r.coexistence ? r.coexistence.desc : "";
+    var link = document.getElementById("coexistLink");
+    if (r.coexistence && r.coexistence.guide) {
+      link.style.display = "";
+      link.href = "../resources/" + r.coexistence.guide;
+    } else {
+      link.style.display = "none";
+    }
+
+    // apps
+    document.getElementById("appsHint").textContent = r.apps.length + " applications discovered (enterprise apps + app registrations).";
+    var atb = document.querySelector("#appsTable tbody");
+    atb.innerHTML = "";
+    r.apps.slice(0, 200).forEach(function (a) {
+      atb.innerHTML += '<tr><td>' + esc(a.name) + '</td><td class="mono">' + esc(a.appId) + "</td></tr>";
+    });
+
+    // top apps
+    var tab = document.querySelector("#topAppsTable tbody");
+    tab.innerHTML = "";
+    (r.access.topApps || []).forEach(function (a) {
+      tab.innerHTML += '<tr><td>' + esc(a.name) + "</td><td>" + a.count + "</td></tr>";
+    });
+
+    // CA
+    var cab = document.querySelector("#caTable tbody");
+    cab.innerHTML = "";
+    (r.posture.policies || []).forEach(function (p) {
+      var badge = p.state === "enabled" ? '<span class="badge teal">enabled</span>' : '<span class="badge gray">' + esc(p.state || "—") + "</span>";
+      cab.innerHTML += '<tr><td>' + esc(p.name) + "</td><td>" + badge + "</td></tr>";
+    });
+
+    // vendor
+    document.getElementById("vendorLine").textContent = r.vendor.detected
+      ? r.vendor.detected + (r.vendor.evidence && r.vendor.evidence.length ? " (evidence: " + r.vendor.evidence.join(", ") + ")" : "")
+      : "No incumbent SSE/VPN vendor detected in your apps or sign-in clients.";
+
+    // gsa
+    var profiles = r.gsa.forwardingProfiles || [];
+    document.getElementById("gsaLine").textContent = r.gsa.onboarded
+      ? "GSA is onboarded. Forwarding profiles: " + profiles.map(function (p) { return p.type + " (" + p.state + ")"; }).join(", ")
+      : "GSA not onboarded (or no read access to its config).";
+
+    // errors
+    var errPanel = document.getElementById("errorsPanel");
+    if (r.errors && r.errors.length) {
+      errPanel.style.display = "";
+      document.getElementById("errorsList").innerHTML = r.errors.map(function (e) {
+        return '<div class="notice" style="margin-bottom:8px"><b>' + esc(e.label) + ":</b> " + esc(e.message) + "</div>";
+      }).join("");
+    } else {
+      errPanel.style.display = "none";
+    }
+
+    document.getElementById("exportBtn").addEventListener("click", GsaDiscovery.exportJson);
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+
+  // on-prem parser
+  document.getElementById("parseBtn").addEventListener("click", function () {
+    var text = document.getElementById("onpremInput").value;
+    var items = window.GsaDiscoveryParser.parse(text);
+    var tbl = document.getElementById("onpremTable");
+    var tb = tbl.querySelector("tbody");
+    tb.innerHTML = "";
+    items.forEach(function (it) {
+      tb.innerHTML += '<tr><td class="mono">' + it.kind.toUpperCase() + "</td><td class='mono'>" + esc(it.value) + "</td><td>" + esc(it.label || "—") + "</td></tr>";
+    });
+    document.getElementById("parseCount").textContent = items.length + " legacy targets found";
+    tbl.style.display = items.length ? "" : "none";
+    // stash for export
+    window.__onprem = items;
+  });
+
+  // init
+  (async function init() {
+    GsaDiscovery.init();
+    if (GsaDiscovery.NOT_CONFIGURED) {
+      ui.authState("not-configured");
+      return;
+    }
+    var ok = await GsaDiscovery.handleRedirect();
+    if (ok) {
+      ui.account(GsaDiscovery.account());
+      ui.authState("signed-in");
+      run();
+    } else {
+      ui.authState("signed-out");
+    }
+  })();
+})();
+</script>
+</body>
+</html>
