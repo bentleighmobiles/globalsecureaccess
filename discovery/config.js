@@ -24,8 +24,7 @@ window.GSA_DISCOVERY_CONFIG = {
     "Application.Read.All",
     "Policy.Read.All",
     "AuditLog.Read.All",
-    "Organization.Read.All",
-    "GlobalSecureAccess.Read.All"
+    "Organization.Read.All"
   ],
 
   // Graph beta endpoints are used for GSA config (networkAccess). Keep true.
