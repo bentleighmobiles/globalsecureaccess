@@ -192,6 +192,18 @@
         <p class="muted" style="margin-top:8px;font-size:0.82rem"><strong>How to revoke:</strong> Entra admin center → Identity → Applications → <a href="https://entra.microsoft.com/#view/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/~/AppAppsPreview" target="_blank" rel="noopener" style="text-decoration:underline">Enterprise applications</a> → "Passbeck Discovery" → Remove. Or revoke from <a href="https://myaccount.microsoft.com" target="_blank" rel="noopener" style="text-decoration:underline">myaccount.microsoft.com</a>.</p>
       </div>
 
+      <!-- offline / no-consent fallback -->
+      <div class="panel" style="margin-top:24px">
+        <h2>No consent? Run it yourself</h2>
+        <p class="hint" style="margin-bottom:12px">Regulated buyers can run the same scan locally with their own credentials and upload the result — nothing is ever sent to us.</p>
+        <div class="row">
+          <a class="btn btn-ghost" href="export-gsa-discovery.ps1" download>Download PowerShell script</a>
+          <input type="file" id="jsonFile" accept=".json,application/json" style="display:none" />
+          <button class="btn btn-ghost" id="uploadBtn">Upload JSON result</button>
+        </div>
+        <p class="muted" id="uploadMsg" style="margin-top:12px;font-size:0.85rem">Run <span class="mono">export-gsa-discovery.ps1</span> in your tenant, then upload the JSON here.</p>
+      </div>
+
       <!-- results -->
       <div id="results" style="display:none">
         <div class="panel" style="margin-top:24px">
@@ -436,6 +448,29 @@
     tbl.style.display = items.length ? "" : "none";
     // stash for export
     window.__onprem = items;
+  });
+
+  // offline / no-consent fallback: upload a JSON result
+  var uploadBtn = document.getElementById("uploadBtn");
+  var jsonFile = document.getElementById("jsonFile");
+  var uploadMsg = document.getElementById("uploadMsg");
+  uploadBtn.addEventListener("click", function () { jsonFile.click(); });
+  jsonFile.addEventListener("change", function () {
+    var file = jsonFile.files && jsonFile.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var parsed = JSON.parse(reader.result);
+        result = (parsed && parsed.discovery) ? parsed.discovery : parsed;
+        if (parsed && parsed.onPrem && parsed.onPrem.length) { window.__onprem = parsed.onPrem; }
+        render();
+        uploadMsg.textContent = "Loaded \"" + file.name + "\" — full analysis below.";
+      } catch (e) {
+        uploadMsg.innerHTML = '<span style="color:var(--danger)">Could not parse that file: ' + (e && e.message ? e.message : e) + "</span>";
+      }
+    };
+    reader.readAsText(file);
   });
 
   // init
