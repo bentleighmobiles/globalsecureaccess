@@ -83,6 +83,48 @@
         </div>
       </div>
 
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:28px">
+        <figure style="margin:0;border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--white)">
+          <figcaption style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#94a3b8;margin-bottom:8px">Before — through Palo Alto Prisma Access</figcaption>
+          <svg viewBox="0 0 300 240" role="img" aria-label="Before: all traffic routes through Palo Alto Prisma Access">
+            <defs><marker id="gba" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#94a3b8"/></marker></defs>
+            <rect x="95" y="8" width="110" height="42" rx="9" fill="#f4f6f9" stroke="#94a3b8"/>
+            <text x="150" y="33" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#0a1420">Device</text>
+            <path d="M150 50 L150 86" stroke="#94a3b8" stroke-width="2" marker-end="url(#gba)"/>
+            <rect x="60" y="86" width="180" height="42" rx="9" fill="rgba(250,88,45,0.1)" stroke="#fa582d"/>
+            <text x="150" y="106" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#0a1420">Prisma Access</text>
+            <text x="150" y="121" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#46536b">internet + private (SASE)</text>
+            <path d="M150 128 L150 164" stroke="#94a3b8" stroke-width="2" marker-end="url(#gba)"/>
+            <rect x="85" y="164" width="130" height="42" rx="9" fill="#f4f6f9" stroke="#94a3b8"/>
+            <text x="150" y="189" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#0a1420">Internet + private apps</text>
+            <text x="150" y="232" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#b7791f">all traffic through Prisma</text>
+          </svg>
+        </figure>
+        <figure style="margin:0;border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--white)">
+          <figcaption style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#0a756b;margin-bottom:8px">After — GSA coexistence</figcaption>
+          <svg viewBox="0 0 300 240" role="img" aria-label="After: GSA takes private access while Palo Alto Prisma Access keeps its traffic">
+            <defs><marker id="gaa" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#14b8a6"/></marker><marker id="gva" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#fa582d"/></marker></defs>
+            <rect x="95" y="8" width="110" height="42" rx="9" fill="#f4f6f9" stroke="#94a3b8"/>
+            <text x="150" y="33" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#0a1420">Device</text>
+            <path d="M150 50 C150 70 80 70 80 88" stroke="#14b8a6" stroke-width="2" fill="none" marker-end="url(#gaa)"/>
+            <path d="M150 50 C150 70 220 70 220 88" stroke="#fa582d" stroke-width="2" fill="none" marker-end="url(#gva)"/>
+            <rect x="20" y="88" width="120" height="42" rx="9" fill="rgba(20,184,166,0.10)" stroke="#14b8a6"/>
+            <text x="80" y="108" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#0a1420">Entra GSA</text>
+            <text x="80" y="123" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#46536b">private + M365</text>
+            <rect x="160" y="88" width="120" height="42" rx="9" fill="rgba(250,88,45,0.1)" stroke="#fa582d"/>
+            <text x="220" y="108" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#0a1420">Prisma Access</text>
+            <text x="220" y="123" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#46536b">internet / SaaS</text>
+            <path d="M80 130 L80 166" stroke="#14b8a6" stroke-width="2" marker-end="url(#gaa)"/>
+            <path d="M220 130 L220 166" stroke="#fa582d" stroke-width="2" marker-end="url(#gva)"/>
+            <rect x="20" y="166" width="120" height="40" rx="9" fill="rgba(20,184,166,0.10)" stroke="#14b8a6"/>
+            <text x="80" y="190" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#0a1420">Private apps</text>
+            <rect x="160" y="166" width="120" height="40" rx="9" fill="rgba(250,88,45,0.1)" stroke="#fa582d"/>
+            <text x="220" y="190" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#0a1420">Internet / SaaS</text>
+            <text x="150" y="232" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#0a756b">Prisma keeps internet · GSA takes private</text>
+          </svg>
+        </figure>
+      </div>
+
       <div class="guide-step"><h3><span class="sn">01</span>Choose tunnel-based or split-tunnel coexistence</h3><p>Decide whether Prisma stays full-tunnel for internet while GSA handles private, or you split-tunnel so each platform sees only its traffic.</p></div>
       <div class="guide-step"><h3><span class="sn">02</span>Configure selective routing</h3><p>Route private + M365 destinations to GSA; keep internet/SaaS on Prisma. Align so no destination is double-routed.</p></div>
       <div class="guide-step"><h3><span class="sn">03</span>Publish private apps through GSA</h3><p>Deploy the Entra Private Network Connector and publish apps with Quick Access.</p></div>
