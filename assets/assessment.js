@@ -216,21 +216,21 @@ function beforeDiagram(v) {
 
 function afterDiagram(v, rec) {
   var coexist = rec && rec.coexist;
-  var defs = '<defs>' + marker("aa", "#EFDD8D") + (coexist ? marker("ac", v.color) : "") + '</defs>';
+  var defs = '<defs>' + marker("aa", "#38bdf8") + (coexist ? marker("ac", v.color) : "") + '</defs>';
   var s = defs;
   s += nodeStr(14, 96, 76, 48, "Device", null, "#94a3b8");
   if (coexist) {
     s += nodeStr(150, 20, 140, 34, v.short, "coexisting", v.color);
     s += flowStr(290, 37, 320, 110, v.color, "ac");
   }
-  s += nodeStr(150, 96, 140, 48, "Entra GSA", "Entra ID · Conditional Access", "#EFDD8D");
-  s += nodeStr(320, 30, 100, 40, "Private apps", null, "#EFDD8D");
-  s += nodeStr(320, 100, 100, 40, "Internet / SaaS", null, "#EFDD8D");
-  s += nodeStr(320, 170, 100, 40, "M365", null, "#EFDD8D");
-  s += flowStr(90, 120, 150, 120, "#EFDD8D", "aa");
-  s += flowStr(290, 108, 320, 50, "#EFDD8D", "aa");
-  s += flowStr(290, 120, 320, 120, "#EFDD8D", "aa");
-  s += flowStr(290, 132, 320, 190, "#EFDD8D", "aa");
+  s += nodeStr(150, 96, 140, 48, "Entra GSA", "Entra ID · Conditional Access", "#38bdf8");
+  s += nodeStr(320, 30, 100, 40, "Private apps", null, "#38bdf8");
+  s += nodeStr(320, 100, 100, 40, "Internet / SaaS", null, "#38bdf8");
+  s += nodeStr(320, 170, 100, 40, "M365", null, "#38bdf8");
+  s += flowStr(90, 120, 150, 120, "#38bdf8", "aa");
+  s += flowStr(290, 108, 320, 50, "#38bdf8", "aa");
+  s += flowStr(290, 120, 320, 120, "#38bdf8", "aa");
+  s += flowStr(290, 132, 320, 190, "#38bdf8", "aa");
   var note = "After: per-app, identity-based access through Entra GSA — no VPN tunnel, nothing listening on the internet.";
   if (coexist) note += " " + v.name + " stays on for the traffic you choose, so you migrate app by app.";
   return { svg: s, note: note };
