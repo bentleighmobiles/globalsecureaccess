@@ -35,9 +35,9 @@ var RESOURCES = [
 ];
 
 var DEPLOYED = [
+  { value: "microsoft",  label: "Microsoft traffic profile",  review: "Microsoft 365 / Entra traffic forwarding rules and coverage" },
   { value: "private",    label: "Entra Private Access",       review: "connectors, app publishing and Quick Access scope" },
-  { value: "internet",   label: "Entra Internet Access",      review: "forwarding profiles and SWG policy alignment" },
-  { value: "forwarding", label: "Traffic Forwarding / GSA Client", review: "forwarding profiles and client rollout coverage" },
+  { value: "internet",   label: "Entra Internet Access",      review: "internet forwarding policies and SWG alignment" },
   { value: "ca",         label: "Conditional Access & Entra ID", review: "policies, identity and device compliance integration" }
 ];
 
