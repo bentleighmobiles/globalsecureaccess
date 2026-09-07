@@ -87,7 +87,7 @@ header {
   -webkit-mask-image: radial-gradient(900px 600px at 50% 20%, #000 30%, transparent 75%);
           mask-image: radial-gradient(900px 600px at 50% 20%, #000 30%, transparent 75%);
 }
-.hero-inner { position: relative; padding: 96px 0 88px; }
+.hero-inner { position: relative; padding-top: 56px; padding-bottom: 72px; }
 .eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
   font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.06em;
@@ -157,7 +157,12 @@ h2 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); letter-spacing: -0.02em; line-heig
 .card .icon svg { width: 20px; height: 20px; }
 .card h3 { font-size: 1.08rem; letter-spacing: -0.01em; margin-bottom: 9px; }
 .card p { color: var(--ink-soft); font-size: 0.94rem; }
-.card .tag { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.7rem; color: var(--accent); background: var(--accent-soft); padding: 4px 9px; border-radius: 6px; }
+.card .tag { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 0.75rem; color: var(--accent-strong); background: var(--accent-soft); padding: 4px 9px; border-radius: 6px; }
+.card-list { list-style: none; margin-top: 12px; font-size: 0.85rem; color: var(--ink-soft); line-height: 1.5; }
+.card-list li { padding: 5px 0 5px 16px; position: relative; }
+.card-list li::before { content: ""; position: absolute; left: 0; top: 13px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.card-link { display: inline-block; margin-top: 14px; font-weight: 600; font-size: 0.88rem; color: var(--accent-strong); }
+.card-link:hover { text-decoration: underline; }
 
 /* Why us */
 .why { background: var(--navy); color: #eaf2f9; }
@@ -428,7 +433,7 @@ footer { background: var(--navy); color: #8aa0b8; padding: 44px 0; font-size: 0.
 @media (max-width: 560px) {
   .cards, .steps { grid-template-columns: 1fr; }
   .resource-cards { grid-template-columns: 1fr; }
-  .hero-inner { padding: 64px 0 60px; }
+  .hero-inner { padding-top: 40px; padding-bottom: 48px; }
   .page-hero { padding: 48px 0 28px; }
   section { padding: 60px 0; }
   .wiz-body { padding: 26px 20px 24px; }
