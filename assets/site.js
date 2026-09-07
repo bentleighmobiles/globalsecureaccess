@@ -27,4 +27,22 @@
   } else {
     els.forEach(function (el) { el.classList.add('visible'); });
   }
+
+  /* Cookieless, privacy-respecting analytics beacon.
+     No cookies, no personal data, no IP or user-agent stored.
+     Set PB_ANALYTICS_URL to your deployed analytics.gs /exec URL to enable. */
+  var PB_ANALYTICS_URL = "";
+  function pbTrack(event, meta) {
+    if (!PB_ANALYTICS_URL) return;
+    try {
+      if (navigator.doNotTrack === "1" || navigator.globalPrivacyControl === true) return;
+      var payload = { event: event, path: location.pathname, ref: document.referrer ? new URL(document.referrer).hostname : "", ts: new Date().toISOString() };
+      if (meta) { for (var k in meta) { if (Object.prototype.hasOwnProperty.call(meta, k)) payload[k] = meta[k]; } }
+      var body = JSON.stringify(payload);
+      if (navigator.sendBeacon) { navigator.sendBeacon(PB_ANALYTICS_URL, body); }
+      else { fetch(PB_ANALYTICS_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: body, keepalive: true }).catch(function () {}); }
+    } catch (e) {}
+  }
+  window.pbTrack = pbTrack;
+  pbTrack("page_view");
 })();

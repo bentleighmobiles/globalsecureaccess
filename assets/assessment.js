@@ -69,6 +69,7 @@ var LABELS = { mode: "Start", stack: "Stack", entra: "Entra ID", resources: "Res
 var MULTI = { resources: true, deployed: true, drivers: true };
 
 var state = { mode: null, stack: null, entra: null, resources: [], scale: null, deployed: [], drivers: [], outcome: null };
+var trackedStart = false, trackedComplete = false;
 var current = 0;
 
 var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
@@ -124,6 +125,7 @@ function select(group, value) {
     o.setAttribute("aria-pressed", on ? "true" : "false");
   });
   updateNav();
+  if (group === "mode" && value && !trackedStart) { trackedStart = true; if (window.pbTrack) window.pbTrack("assessment_start"); }
 }
 
 /* ---------- navigation ---------- */
@@ -349,6 +351,7 @@ function renderResult() {
     ? "Here's how your access architecture shifts — and the path that fits your current stack."
     : "Based on your answers, here's the engagement we'd recommend and what it would cover.";
   if (adopt) renderAdoptResult(); else renderReviewResult();
+  if (!trackedComplete) { trackedComplete = true; if (window.pbTrack) window.pbTrack("assessment_complete", { mode: state.mode }); }
 }
 
 /* ---------- lead capture ---------- */
@@ -422,12 +425,14 @@ document.getElementById("leadForm").addEventListener("submit", function (e) {
       if (data && data.status === "ok") {
         msg.className = "submit-msg ok";
         msg.textContent = "Thanks " + name.split(" ")[0] + " — your request is in. We'll be in touch within one business day.";
+        if (window.pbTrack) window.pbTrack("lead_success");
       } else {
         throw new Error((data && data.message) || "unexpected response");
       }
     }).catch(function () {
       msg.className = "submit-msg err";
       msg.innerHTML = "Something went wrong and your details weren't sent. Please email <a href=\"mailto:hello@passbeck.com\">hello@passbeck.com</a> instead.";
+      if (window.pbTrack) window.pbTrack("lead_error");
     });
   } else {
     var subject = encodeURIComponent("GSA " + (state.mode === "review" ? "review" : "assessment") + " request — " + (company || name));
