@@ -10,6 +10,9 @@
     - sign-in logs (access patterns, top apps, risky sign-ins)
     - Conditional Access policies
     - Global Secure Access forwarding profiles (beta endpoint)
+    - Private Access connectors (Application Proxy)
+    - Intune managed devices + compliance posture
+    - licensing (subscribed SKUs, Entra ID P2 detection)
   ...then performs the same incumbent-vendor detection and emits a JSON file
   matching the Discovery tool's result shape.
 
@@ -17,7 +20,9 @@
   Install-Module Microsoft.Graph
   Scopes (consented when you connect): User.Read, Application.Read.All,
     Policy.Read.All, AuditLog.Read.All, Organization.Read.All,
-    NetworkAccess.Read.All (admin consent required for GSA forwarding profiles).
+    NetworkAccess.Read.All (admin consent required for GSA forwarding profiles),
+    DeviceManagementManagedDevices.Read.All, DeviceManagementApps.Read.All,
+    Directory.Read.All (connectors).
   AuditLog.Read.All requires an Entra ID P1 license.
 
 .EXAMPLE
@@ -30,7 +35,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 # ---------- connect ----------
-Connect-MgGraph -Scopes "User.Read","Application.Read.All","Policy.Read.All","AuditLog.Read.All","Organization.Read.All","NetworkAccess.Read.All" -NoWelcome
+Connect-MgGraph -Scopes "User.Read","Application.Read.All","Policy.Read.All","AuditLog.Read.All","Organization.Read.All","NetworkAccess.Read.All","DeviceManagementManagedDevices.Read.All","DeviceManagementApps.Read.All","Directory.Read.All" -NoWelcome
 
 $ctx = Get-MgContext
 $errors = @()
@@ -114,6 +119,44 @@ try {
     }
     $result.gsa = [ordered]@{ onboarded = @($fp).Count -gt 0; forwardingProfiles = $fp }
 } catch { $errors += "gsa: $($_.Exception.Message)" }
+
+# ---------- connectors (Private Access / Application Proxy) ----------
+$result.connectors = [ordered]@{ count = 0; groups = @() }
+try {
+    $profileId = "applicationproxy"
+    $conns = Get-MgBetaOnPremisesPublishingProfileConnector -OnPremisesPublishingProfileId $profileId -ErrorAction SilentlyContinue
+    $groups = Get-MgBetaOnPremisesPublishingProfileConnectorGroup -OnPremisesPublishingProfileId $profileId -ErrorAction SilentlyContinue
+    $result.connectors = [ordered]@{
+        count  = @($conns).Count
+        groups = @($groups | ForEach-Object { [ordered]@{ name = $_.Name; id = $_.Id } })
+    }
+} catch { $errors += "connectors: $($_.Exception.Message)" }
+
+# ---------- devices (Intune) ----------
+$result.devices = [ordered]@{ managedWindows = 0; compliant = 0; nonCompliant = 0 }
+try {
+    $devices = Get-MgDeviceManagementManagedDevice -All -Property "operatingSystem,complianceState" -ErrorAction SilentlyContinue
+    $win = @($devices | Where-Object { $_.OperatingSystem -eq "Windows" })
+    $compliant = @($win | Where-Object { $_.ComplianceState -eq "compliant" }).Count
+    $result.devices = [ordered]@{
+        managedWindows = $win.Count
+        compliant      = $compliant
+        nonCompliant   = $win.Count - $compliant
+    }
+} catch { $errors += "devices: $($_.Exception.Message)" }
+
+# ---------- licensing (Entra ID P2 detection) ----------
+$result.licensing = [ordered]@{ hasEntraP2 = $false; skus = @() }
+try {
+    $skus = Get-MgSubscribedSku -ErrorAction SilentlyContinue
+    $skuList = @()
+    $hasP2 = $false
+    foreach ($s in $skus) {
+        $skuList += $s.SkuPartNumber
+        if ($s.ServicePlans -and ($s.ServicePlans | Where-Object { $_.ServicePlanName -eq "AAD_PREMIUM_P2" })) { $hasP2 = $true }
+    }
+    $result.licensing = [ordered]@{ hasEntraP2 = $hasP2; skus = $skuList }
+} catch { $errors += "licensing: $($_.Exception.Message)" }
 
 # ---------- vendor detection ----------
 $vendors = @(
