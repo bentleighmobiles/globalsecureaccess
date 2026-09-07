@@ -107,11 +107,23 @@
       </div>
 
       <div class="guide-step reveal" style="margin-top:48px">
+        <span class="kicker">Licensing</span>
+        <h3>GSA licensing at a glance</h3>
+        <ul style="list-style:none;margin-top:14px">
+          <li style="padding:7px 0;font-size:0.94rem;color:var(--ink-soft)"><strong style="color:var(--ink)">Microsoft traffic profile</strong> — included with Entra ID P1/P2; no extra GSA licence.</li>
+          <li style="padding:7px 0;font-size:0.94rem;color:var(--ink-soft)"><strong style="color:var(--ink)">Entra Private Access</strong> — requires the Private Access licence or Entra Suite, in addition to Entra ID P1/P2.</li>
+          <li style="padding:7px 0;font-size:0.94rem;color:var(--ink-soft)"><strong style="color:var(--ink)">Entra Internet Access</strong> — requires the Internet Access licence or Entra Suite, in addition to Entra ID P1/P2.</li>
+          <li style="padding:7px 0;font-size:0.94rem;color:var(--ink-soft)"><strong style="color:var(--ink)">Risk-based Conditional Access</strong> — requires Entra ID P2; device compliance depends on your device-management entitlement (e.g. Intune).</li>
+          <li style="padding:7px 0;font-size:0.94rem;color:var(--ink-soft)">Not every Microsoft 365 customer already owns full GSA — check which licences you actually hold before scoping.</li>
+        </ul>
+      </div>
+
+      <div class="guide-step reveal" style="margin-top:48px">
         <span class="kicker">Further references</span>
         <h3>Official Microsoft resources &amp; open-source tooling</h3>
         <ul style="list-style:none;margin-top:14px">
           <li style="padding:7px 0;font-size:0.94rem;color:var(--ink-soft)"><strong style="color:var(--ink)">Microsoft — Global Secure Access</strong> · official scenario guides, step-by-step docs and recorded demos · <a class="src-link" href="https://github.com/microsoft/GlobalSecureAccess">github.com/microsoft/GlobalSecureAccess</a></li>
-          <li style="padding:7px 0;font-size:0.94rem;color:var(--ink-soft)"><strong style="color:var(--ink)">Microsoft — Migrate2GSA</strong> · tools to speed migration from other SSE vendors to GSA · <a class="src-link" href="https://github.com/microsoft/Migrate2GSA">github.com/microsoft/Migrate2GSA</a></li>
+          <li style="padding:7px 0;font-size:0.94rem;color:var(--ink-soft)"><strong style="color:var(--ink)">Migrate2GSA</strong> · community tools to speed migration from other SSE vendors — maintained by Microsoft employees, but not an official Microsoft product and not supported through Microsoft support · <a class="src-link" href="https://github.com/microsoft/Migrate2GSA">github.com/microsoft/Migrate2GSA</a></li>
           <li style="padding:7px 0;font-size:0.94rem;color:var(--ink-soft)"><strong style="color:var(--ink)">Microsoft — GSA Policy Workbench</strong> · read-only, single-pane visibility of GSA Internet &amp; Private Access policy · <a class="src-link" href="https://github.com/microsoft/GSA-Policy-Workbench">github.com/microsoft/GSA-Policy-Workbench</a></li>
           <li style="padding:7px 0;font-size:0.94rem;color:var(--ink-soft)"><strong style="color:var(--ink)">Maester</strong> · MIT test framework with 9 built-in GSA health checks (connector hygiene, forwarding profiles, Conditional Access) · <a class="src-link" href="https://github.com/maester365/maester">github.com/maester365/maester</a></li>
           <li style="padding:7px 0;font-size:0.94rem;color:var(--ink-soft)"><strong style="color:var(--ink)">Microsoft Learn — GSA documentation hub</strong> · the authoritative reference for all coexistence patterns · <a class="src-link" href="https://learn.microsoft.com/en-us/entra/global-secure-access/">learn.microsoft.com/entra/global-secure-access</a></li>

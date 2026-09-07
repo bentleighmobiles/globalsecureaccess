@@ -15,8 +15,8 @@
 
 .PREREQUISITES
   Install-Module Microsoft.Graph
-  Scopes (consented when you connect): User.Read, Directory.Read.All,
-    Application.Read.All, Policy.Read.All, AuditLog.Read.All, Organization.Read.All,
+  Scopes (consented when you connect): User.Read, Application.Read.All,
+    Policy.Read.All, AuditLog.Read.All, Organization.Read.All,
     NetworkAccess.Read.All (admin consent required for GSA forwarding profiles).
   AuditLog.Read.All requires an Entra ID P1 license.
 
@@ -30,7 +30,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 # ---------- connect ----------
-Connect-MgGraph -Scopes "User.Read","Directory.Read.All","Application.Read.All","Policy.Read.All","AuditLog.Read.All","Organization.Read.All","NetworkAccess.Read.All" -NoWelcome
+Connect-MgGraph -Scopes "User.Read","Application.Read.All","Policy.Read.All","AuditLog.Read.All","Organization.Read.All","NetworkAccess.Read.All" -NoWelcome
 
 $ctx = Get-MgContext
 $errors = @()

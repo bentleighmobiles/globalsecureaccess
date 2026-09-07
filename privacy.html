@@ -57,26 +57,26 @@
       <p>Passbeck is an independent security architecture consultancy. For data requests or questions, contact <a href="mailto:hello@passbeck.com">hello@passbeck.com</a>.</p>
 
       <h2>The assessment form</h2>
-      <p>If you complete the GSA Impact Assessment, we collect what you type in: your <strong>name, work email, company, optional note, and your assessment answers</strong> (current stack, scale, and the recommendation you were shown). We use this solely to respond to you and, if you become a client, to scope the engagement. We don't use it for marketing and don't share it with third parties.</p>
+      <p>If you complete the GSA Impact Assessment, we collect what you type in: your <strong>name, work email, company, optional note, and your assessment answers</strong> (current stack, scale, and the recommendation you were shown). Submissions are sent to a Google Apps Script endpoint and stored in a Google Sheet, so your details are processed by Google's infrastructure on our behalf. We use the data solely to respond to you and, if you become a client, to scope the engagement. We don't use it for marketing or share it with anyone else.</p>
 
       <h2>The Discovery tool</h2>
       <p>Discovery is a read-only scanner. When you sign in, you grant these Microsoft Graph permissions — and only these:</p>
       <ul style="margin:12px 0 12px 20px;color:var(--ink-soft);line-height:1.9">
         <li><code>User.Read</code> — your name and email, to sign you in</li>
-        <li><code>Directory.Read.All</code> — your users and groups</li>
         <li><code>Application.Read.All</code> — your app inventory</li>
         <li><code>Policy.Read.All</code> — your Conditional Access policies</li>
         <li><code>AuditLog.Read.All</code> — your sign-in logs (requires Entra ID P1)</li>
         <li><code>Organization.Read.All</code> — your tenant name and domains</li>
+        <li><code>NetworkAccess.Read.All</code> — your GSA forwarding profiles (admin consent)</li>
       </ul>
-      <p>The analysis runs <strong>entirely in your browser</strong>. Your data is <strong>never uploaded to our servers, never stored, and never seen by us</strong>. Nothing persists after you close the tab. You can revoke access at any time from your Entra admin centre.</p>
+      <p>The analysis runs <strong>entirely in your browser</strong>. Authentication and data retrieval go directly to Microsoft (Microsoft Graph) with your signed-in account; the tenant analysis is computed locally and <strong>Passbeck receives none of it and stores nothing on our side</strong>. Tenant analysis is held in memory while the tool runs and only persists if you explicitly download the JSON export. You can revoke access at any time from your Entra admin centre.</p>
 
       <h2>Retention</h2>
       <p><strong>Discovery tool: none.</strong> We retain nothing — the scan is stateless and client-side.</p>
       <p><strong>Assessment form:</strong> we keep your submission only as long as needed to respond, and — if you become a client — for the duration of the engagement.</p>
 
       <h2>Cookies and storage</h2>
-      <p>We don't use tracking or advertising cookies. The site and Discovery tool may store a single <strong>local preference</strong> (your dark/light theme choice) in your browser's local storage; it's never sent to us.</p>
+      <p>We don't use tracking or advertising cookies. The site stores a single <strong>local preference</strong> (your dark/light theme choice) in your browser's local storage; it's never sent to us. The Discovery tool additionally keeps a temporary sign-in token in your browser's <strong>session storage</strong> so you stay signed in while you use it — this is cleared when you close the tab and is never sent to us.</p>
 
       <h2>Your rights</h2>
       <p>You can request access to, correction of, or deletion of any personal data we hold about you by emailing <a href="mailto:hello@passbeck.com">hello@passbeck.com</a>. We respond within 30 days.</p>

@@ -20,7 +20,6 @@ window.GSA_DISCOVERY_CONFIG = {
   // Delegated read-only Graph scopes the discovery needs.
   scopes: [
     "User.Read",
-    "Directory.Read.All",
     "Application.Read.All",
     "Policy.Read.All",
     "AuditLog.Read.All",

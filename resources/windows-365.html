@@ -58,7 +58,7 @@
     <div class="wrap">
       <span class="kicker">GSA integration guide</span>
       <h1>Global Secure Access + Windows 365 / Azure Virtual Desktop</h1>
-      <p class="sub">Cloud PCs don't need a VPN or an Azure Network Connection to reach your on-prem apps. GSA Private Access gives Windows 365 and Azure Virtual Desktop an outbound-only path to internal resources — plus a secure path to the internet.</p>
+      <p class="sub">Cloud PCs don't need a VPN to reach on-prem apps. GSA Private Access gives Windows 365 and Azure Virtual Desktop an outbound-only path to internal resources. The platforms differ: Windows 365 Enterprise chooses between a Microsoft-hosted network and an Azure Network Connection (ANC), while Azure Virtual Desktop session hosts live in your own VNet and already use outbound reverse connectivity by default.</p>
       <div class="vrow"><span class="vswatch" style="background:#0078d4"></span> Windows 365 · Azure Virtual Desktop · Microsoft</div>
     </div>
   </section>
@@ -78,7 +78,7 @@
           <h2>The legacy approach owns</h2>
           <ul>
             <li>Azure Network Connection (ANC) + VPN Gateway / ExpressRoute</li>
-            <li>Inbound network exposure to on-prem (VPN endpoints)</li>
+            <li>A VPN or ANC path to on-prem (which can mean inbound VPN endpoints)</li>
             <li>Hybrid Azure AD Join line-of-sight to domain controllers</li>
           </ul>
         </div>
@@ -119,14 +119,16 @@
         </figure>
       </div>
 
-      <div class="guide-step"><h3><span class="sn">01</span>Inventory what Cloud PCs actually need on-prem</h3><p>List the file servers, LOB apps and line-of-business systems your Cloud PC users touch. Everything except domain-controller line-of-sight is a candidate for Private Access.</p></div>
+      <div class="guide-step"><h3><span class="sn">01</span>Inventory dependencies</h3><p>List the file servers, LOB apps and systems your Cloud PC users touch, then map each dependency: Kerberos SSO to domain controllers is supported through Private Access, while hybrid Azure AD join, Intune enrolment and other domain operations have their own connectivity requirements. The dependency list decides what moves to Private Access and what still needs a network path.</p></div>
       <div class="guide-step"><h3><span class="sn">02</span>Deploy Entra Private Access connectors</h3><p>Install the connector group on-prem. Connectors dial out to the GSA service — no inbound firewall rules, nothing exposed to the internet.</p></div>
-      <div class="guide-step"><h3><span class="sn">03</span>Publish on-prem apps to Cloud PC users</h3><p>Create Private Access apps and segments for each on-prem resource and assign them to your Cloud PC user groups. Access follows identity + device posture, not network location.</p></div>
-      <div class="guide-step"><h3><span class="sn">04</span>Phase out the ANC and VPN</h3><p>Shrink the Azure Network Connection and VPN to only what still needs raw line-of-sight (e.g. Hybrid Join DC connectivity), then retire it as each dependency migrates.</p></div>
+      <div class="guide-step"><h3><span class="sn">03</span>Install the GSA client on Cloud PCs</h3><p>Install and configure the Global Secure Access client, then assign the forwarding profiles to your Cloud PC groups. On Azure Virtual Desktop, the client is supported on single-session hosts, not multi-session. Verify traffic is acquired (connector logs and the client's diagnostic view) before cutting anything over.</p></div>
+      <div class="guide-step"><h3><span class="sn">04</span>Publish on-prem apps to Cloud PC users</h3><p>Create Private Access apps and segments for each on-prem resource and assign them to your Cloud PC user groups. Access follows identity + device posture, not network location.</p></div>
+      <div class="guide-step"><h3><span class="sn">05</span>Phase out the ANC and VPN</h3><p>Shrink the Azure Network Connection and VPN to only what still needs raw network line-of-sight, then retire it as each dependency migrates.</p></div>
 
+      <div class="callout"><b>Scope note:</b> Entra Private Access provides private access to on-prem and private resources — it is not an internet security service. Internet-bound protection (web filtering, threat protection) comes from Entra Internet Access, a separate profile and licence.</div>
       <div class="callout"><b>When to use:</b> you're provisioning Windows 365 Enterprise or Azure Virtual Desktop and want Cloud PCs to reach on-prem apps without standing up an Azure Network Connection, VPN Gateway or ExpressRoute — or you're replacing an existing VDI VPN with GSA.</div>
       <p class="src-link">Reference: <a href="https://learn.microsoft.com/en-us/entra/global-secure-access/concept-private-access">Microsoft Learn — Global Secure Access Private Access</a></p>
-      <p class="byline">By <strong>Passbeck architecture team</strong></p>
+      <p class="byline">By <strong>Passbeck architecture team</strong> · Last reviewed 7 Sep 2026</p>
     </div>
   </section>
 </main>
