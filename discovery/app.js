@@ -100,8 +100,20 @@
   }
 
   async function graphGetBeta(path) {
-    try { return await graphGet(path, "beta"); }
-    catch (e) { return null; }
+    return await graphGet(path, "beta");
+  }
+
+  // Paginated GET: follows @odata.nextLink until the collection is exhausted.
+  async function graphGetAll(path, apiVersion) {
+    var out = [];
+    var url = path;
+    while (url) {
+      var data = await graphGet(url, apiVersion);
+      if (data && data.value) out = out.concat(data.value);
+      var next = data && data["@odata.nextLink"];
+      url = next ? next.replace("https://graph.microsoft.com/" + (apiVersion || "v1.0") + "/", "") : null;
+    }
+    return out;
   }
 
   // ---------- discovery steps (each resilient — partial results still render) ----------
@@ -116,10 +128,10 @@
     });
 
     await step("Application inventory", async function () {
-      var sps = await graphGet("servicePrincipals?$select=displayName,appId,servicePrincipalType,tags&$top=999");
-      var regs = await graphGet("applications?$select=displayName,appId,signInAudience&$top=999");
+      var sps = await graphGetAll("servicePrincipals?$select=displayName,appId,servicePrincipalType,tags&$top=999");
+      var regs = await graphGetAll("applications?$select=displayName,appId,signInAudience&$top=999");
       var spMap = {};
-      (sps.value || []).forEach(function (sp) {
+      sps.forEach(function (sp) {
         if (sp.servicePrincipalType === "Application") spMap[sp.appId] = sp;
       });
       function isMicrosoft(name, appId, tags) {
@@ -135,7 +147,7 @@
         var sp = spMap[appId];
         apps.push({ name: sp.displayName, appId: appId, kind: "enterprise-app", microsoft: isMicrosoft(sp.displayName, appId, sp.tags) });
       });
-      (regs.value || []).forEach(function (reg) {
+      regs.forEach(function (reg) {
         if (!spMap[reg.appId]) apps.push({ name: reg.displayName, appId: reg.appId, kind: "app-registration", microsoft: isMicrosoft(reg.displayName, reg.appId, null) });
       });
       r.apps = apps;
@@ -176,12 +188,24 @@
     });
 
     await step("Global Secure Access", async function () {
-      var profiles = await graphGetBeta("networkAccess/forwardingProfiles");
+      var profiles;
+      try {
+        profiles = await graphGetBeta("networkAccess/forwardingProfiles");
+      } catch (e) {
+        var isPermission = e && (e.status === 403 || e.status === 401);
+        r.gsa = {
+          onboarded: null,
+          status: isPermission ? "permission" : "error",
+          reason: (e && e.message) ? e.message : String(e),
+          forwardingProfiles: []
+        };
+        return;
+      }
+      var list = profiles && profiles.value ? profiles.value : [];
       r.gsa = {
-        onboarded: !!(profiles && profiles.value && profiles.value.length),
-        forwardingProfiles: profiles && profiles.value
-          ? profiles.value.map(function (p) { return { type: p.trafficForwardingType, state: p.state }; })
-          : []
+        onboarded: list.length > 0,
+        status: list.length > 0 ? "onboarded" : "empty",
+        forwardingProfiles: list.map(function (p) { return { type: p.trafficForwardingType, state: p.state }; })
       };
     });
 
@@ -229,9 +253,9 @@
       return { title: "No incumbent SSE/VPN vendor detected", desc: "No evidence of Zscaler, Cisco, Netskope, Prisma, Fortinet or Citrix clients in your tenant. You may be a greenfield or direct-VPN shop — worth confirming with a workshop.", guide: null };
     }
     if (vendor.guide) {
-      return { title: vendor.detected + " coexistence", desc: "You run " + vendor.detected + ". GSA can deploy alongside it — take over private access (and M365) while " + vendor.detected + " keeps the traffic you're not ready to move.", guide: vendor.guide };
+      return { title: vendor.detected + " coexistence", desc: "Your tenant shows signs of " + vendor.detected + " (based on app and client names). GSA can deploy alongside it — take over private access (and M365) while " + vendor.detected + " keeps the traffic you're not ready to move.", guide: vendor.guide };
     }
-    return { title: vendor.detected + " coexistence", desc: "You run " + vendor.detected + ". We'd assess the specific coexistence approach for it in a workshop — the pattern is the same: GSA takes private access, the incumbent keeps what it owns today.", guide: null };
+    return { title: vendor.detected + " coexistence", desc: "Your tenant shows signs of " + vendor.detected + " (based on app and client names). We'd assess the specific coexistence approach in a workshop — the pattern is the same: GSA takes private access, the incumbent keeps what it owns today.", guide: null };
   }
 
   // ---------- export ----------
@@ -257,6 +281,7 @@
     signedIn: signedIn,
     discover: discover,
     exportJson: exportJson,
+    setResult: function (r) { state.result = r; },
     VENDORS: VENDORS,
     NOT_CONFIGURED: NOT_CONFIGURED,
     account: function () {

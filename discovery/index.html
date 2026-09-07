@@ -146,7 +146,7 @@
 
 <div class="hero">
   <div class="wrap hero-inner">
-    <span class="eyebrow"><span class="dot"></span> Read-only · no data leaves your browser</span>
+    <span class="eyebrow"><span class="dot"></span> Read-only · analysis runs in your browser</span>
     <h1>See your <span class="accent">network access landscape</span> — before you change it.</h1>
     <p class="sub">Sign in with Microsoft and scan your own tenant: application inventory, access patterns, Zero Trust posture, incumbent-vendor detection, and your recommended Global Secure Access coexistence path. Plus paste a VPN or firewall export to surface the legacy apps Graph can't see.</p>
   </div>
@@ -160,10 +160,10 @@
         <h2>What this tool does</h2>
         <p class="hint" style="margin-bottom:8px">A read-only scan of your Microsoft 365 tenant that maps your network access landscape, so you can see what changes if you move to Secure Access.</p>
         <div class="grid" style="margin-top:8px">
-          <div class="card" style="margin-top:0"><h3>App inventory</h3><p>Every enterprise app + app registration, with SSO state.</p></div>
-          <div class="card" style="margin-top:0"><h3>Access patterns</h3><p>Top apps by sign-in, remote vs on-prem, risky sign-ins.</p></div>
-          <div class="card" style="margin-top:0"><h3>Zero Trust posture</h3><p>Conditional Access policies — enabled, disabled, gaps.</p></div>
-          <div class="card" style="margin-top:0"><h3>Vendor detection</h3><p>Zscaler, Cisco, Netskope, Prisma… and your coexistence path.</p></div>
+          <div class="card" style="margin-top:0"><h3>App inventory</h3><p>Every enterprise app + app registration, with its identity and app ID.</p></div>
+          <div class="card" style="margin-top:0"><h3>Access patterns</h3><p>Top apps by sign-in and risky sign-ins (a sample of recent activity).</p></div>
+          <div class="card" style="margin-top:0"><h3>Conditional Access</h3><p>Your policies — enabled vs disabled — as a starting point.</p></div>
+          <div class="card" style="margin-top:0"><h3>Vendor detection</h3><p>Possible presence of Zscaler, Cisco, Netskope, Prisma… and your coexistence path.</p></div>
         </div>
       </div>
 
@@ -180,9 +180,10 @@
             <tr><td class="mono">Policy.Read.All</td><td>Your Conditional Access policies</td></tr>
             <tr><td class="mono">AuditLog.Read.All</td><td>Your sign-in logs (access patterns)</td></tr>
             <tr><td class="mono">Organization.Read.All</td><td>Your tenant name and domains</td></tr>
+            <tr><td class="mono">NetworkAccess.Read.All</td><td>Your GSA forwarding profiles (admin consent)</td></tr>
           </tbody>
         </table>
-        <p class="hint" style="margin-top:12px;font-size:0.85rem">These are granted once by your admin when the app is approved (admin consent). <code>AuditLog.Read.All</code> (sign-in logs) additionally requires an <strong>Entra ID P1</strong> license — without it, that section simply shows as unavailable.</p>
+        <p class="hint" style="margin-top:12px;font-size:0.85rem">These are granted by your admin (admin consent). <code>AuditLog.Read.All</code> (sign-in logs) additionally requires an <strong>Entra ID P1</strong> license, and <code>NetworkAccess.Read.All</code> (GSA profiles) requires admin consent — without them, those sections show as unavailable.</p>
         <div class="row" style="margin-top:16px">
           <span class="badge teal">Read-only</span>
           <span class="badge teal">Runs in your browser</span>
@@ -196,14 +197,14 @@
         <h2 id="authTitle">Sign in to scan your tenant</h2>
         <p class="hint" id="authHint">You'll grant read-only access to directory, apps, policy, sign-in logs and GSA configuration. Nothing is stored — analysis runs in your browser.</p>
         <div id="authActions" class="row" style="margin-top:18px"></div>
-        <p class="muted" style="margin-top:16px;font-size:0.82rem">Passbeck Discovery is an independent tool and is not affiliated with Microsoft. You sign in with your own Microsoft account and grant read-only access. Your data is analyzed in your browser and never uploaded, retained, or shared — <a href="https://github.com/bentleighmobiles/globalsecureaccess" target="_blank" rel="noopener" style="text-decoration:underline">the client-side source is public</a>, so you can verify this yourself.</p>
+        <p class="muted" style="margin-top:16px;font-size:0.82rem">Passbeck Discovery is an independent tool and is not affiliated with Microsoft. You sign in with your own Microsoft account and grant read-only access. Your tenant data is read directly from Microsoft Graph by your browser and analysed locally — Passbeck receives none of it and stores nothing on our side. <a href="https://github.com/bentleighmobiles/globalsecureaccess" target="_blank" rel="noopener" style="text-decoration:underline">The client-side source is public</a>, so you can verify this yourself.</p>
         <p class="muted" style="margin-top:8px;font-size:0.82rem"><strong>How to revoke:</strong> Entra admin center → Identity → Applications → <a href="https://entra.microsoft.com/#view/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/~/AppAppsPreview" target="_blank" rel="noopener" style="text-decoration:underline">Enterprise applications</a> → "Passbeck Discovery" → Remove. Or revoke from <a href="https://myaccount.microsoft.com" target="_blank" rel="noopener" style="text-decoration:underline">myaccount.microsoft.com</a>.</p>
       </div>
 
       <!-- offline / no-consent fallback -->
       <div class="panel" style="margin-top:24px">
-        <h2>No consent? Run it yourself</h2>
-        <p class="hint" style="margin-bottom:12px">Regulated buyers can run the same scan locally with their own credentials and upload the result — nothing is ever sent to us.</p>
+        <h2>No consent to Passbeck? Use your own Graph connection</h2>
+        <p class="hint" style="margin-bottom:12px">Regulated buyers can run the same scan locally with their own Microsoft Graph credentials and upload the result — no consent to Passbeck required. The script still needs its own read-only Graph permissions.</p>
         <div class="row">
           <a class="btn btn-ghost" href="export-gsa-discovery.ps1" download>Download PowerShell script</a>
           <input type="file" id="jsonFile" accept=".json,application/json" style="display:none" />
@@ -362,7 +363,7 @@
       ["CA policies", r.posture.caPolicyCount],
       ["Risky sign-ins (sample)", r.access.riskySignIns || 0],
       ["Vendor", r.vendor.detected || "None"],
-      ["GSA onboarded", r.gsa.onboarded ? "Yes" : "No"],
+      ["GSA onboarded", r.gsa.status === "permission" ? "Unknown" : (r.gsa.onboarded ? "Yes" : "No")],
       ["On-prem apps", "—"]
     ];
     stats.forEach(function (s) {
@@ -413,14 +414,22 @@
 
     // vendor
     document.getElementById("vendorLine").textContent = r.vendor.detected
-      ? r.vendor.detected + (r.vendor.evidence && r.vendor.evidence.length ? " (evidence: " + r.vendor.evidence.join(", ") + ")" : "")
-      : "No incumbent SSE/VPN vendor detected in your apps or sign-in clients.";
+      ? "Possible presence of " + r.vendor.detected + " (based on app/client names" + (r.vendor.evidence && r.vendor.evidence.length ? ": " + r.vendor.evidence.join(", ") : "") + ") — confirm before acting."
+      : "No evidence of an incumbent SSE/VPN vendor in your apps or sign-in clients.";
 
     // gsa
     var profiles = r.gsa.forwardingProfiles || [];
-    document.getElementById("gsaLine").textContent = r.gsa.onboarded
-      ? "GSA is onboarded. Forwarding profiles: " + profiles.map(function (p) { return p.type + " (" + p.state + ")"; }).join(", ")
-      : "GSA not onboarded (or no read access to its config).";
+    var gsaLine;
+    if (r.gsa.status === "permission") {
+      gsaLine = "Could not read GSA config — the NetworkAccess.Read.All permission wasn't granted. Ask an admin to consent it (or upload a local export) and re-run.";
+    } else if (r.gsa.status === "error") {
+      gsaLine = "Could not read GSA config (" + (r.gsa.reason || "error") + ").";
+    } else if (r.gsa.onboarded) {
+      gsaLine = "GSA is onboarded. Forwarding profiles: " + profiles.map(function (p) { return p.type + " (" + p.state + ")"; }).join(", ");
+    } else {
+      gsaLine = "No GSA forwarding profiles found — GSA does not appear to be onboarded in this tenant.";
+    }
+    document.getElementById("gsaLine").textContent = gsaLine;
 
     // errors
     var errPanel = document.getElementById("errorsPanel");
@@ -471,6 +480,7 @@
       try {
         var parsed = JSON.parse(reader.result);
         result = (parsed && parsed.discovery) ? parsed.discovery : parsed;
+        GsaDiscovery.setResult(result);
         if (parsed && parsed.onPrem && parsed.onPrem.length) { window.__onprem = parsed.onPrem; }
         render();
         uploadMsg.textContent = "Loaded \"" + file.name + "\" — full analysis below.";
