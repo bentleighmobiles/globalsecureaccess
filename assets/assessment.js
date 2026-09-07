@@ -85,6 +85,7 @@ function renderOptions(containerId, items, group) {
     b.className = "option";
     b.setAttribute("data-group", group);
     b.setAttribute("data-value", it.value);
+    b.setAttribute("aria-pressed", "false");
     b.innerHTML = '<span class="box">' + CHECK + '</span>' +
       (it.swatch ? '<span class="swatch" style="background:' + it.swatch + '"></span>' : '') +
       '<span>' + it.label + (it.meta ? '<span class="opt-meta">' + it.meta + '</span>' : '') + '</span>';
@@ -120,6 +121,7 @@ function select(group, value) {
     var v = o.getAttribute("data-value");
     var on = multi ? state[group].indexOf(v) >= 0 : state[group] === v;
     o.classList.toggle("selected", on);
+    o.setAttribute("aria-pressed", on ? "true" : "false");
   });
   updateNav();
 }
@@ -144,6 +146,11 @@ function goTo(i) {
   if (key === "result") renderResult();
   updateNav();
   window.scrollTo({ top: 0, behavior: "smooth" });
+  var active = document.querySelector(".wiz-step.active");
+  if (active) {
+    var h = active.querySelector("h2, h3");
+    if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+  }
 }
 
 function renderProgress() {
@@ -238,14 +245,14 @@ function afterDiagram(v, rec) {
 }
 
 /* ---------- recommendation (adopt mode) ---------- */
-function computeRecommendation(v) {
+function computeRecommendation(v, resources) {
   var rec = { title: "", desc: "", guide: null, coexist: false };
   if (v.kind === "none") {
     rec.title = "Clean-slate GSA rollout";
     rec.desc = "You're not unpicking a legacy stack, so you can go straight to Entra Private Access + Internet Access in a phased rollout — no coexistence required.";
   } else if (v.kind === "replace") {
     rec.title = "Private Access VPN replacement";
-    rec.desc = "Your legacy VPN can be retired outright: publish each app through Entra Private Access and cut the tunnel entirely. No vendor coexistence needed.";
+    rec.desc = "Entra Private Access is a candidate for replacing access to the apps you selected. Before you retire the VPN outright, confirm endpoint support, protocols (including TCP/UDP), identity and DNS dependencies, licensing, and pilot results.";
   } else if (v.kind === "vpn") {
     rec.title = "Cisco AnyConnect coexistence";
     rec.desc = "Keep Cisco AnyConnect (Secure Client) where it still makes sense and add GSA alongside it — a staged split-include coexistence so users move off the VPN gradually.";
@@ -270,12 +277,15 @@ function computeChanges(v, rec) {
   } else {
     changes.push("<b>No coexistence needed</b> — a clean handover with a clear cutover plan.");
   }
+  if (v.kind === "replace") {
+    changes.push("<b>Retirement is gated on validation</b> — endpoint support, protocols, licensing and a successful pilot. These answers point the way; a short discovery confirms it.");
+  }
   return changes;
 }
 
 function renderAdoptResult() {
   var v = VENDORS[state.stack] || VENDORS.greenfield;
-  var rec = computeRecommendation(v);
+  var rec = computeRecommendation(v, state.resources);
   var before = beforeDiagram(v);
   var after = afterDiagram(v, rec);
 
@@ -356,6 +366,11 @@ document.getElementById("leadForm").addEventListener("submit", function (e) {
     msg.textContent = "Please add your name and work email.";
     return;
   }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    msg.className = "submit-msg err";
+    msg.textContent = "Please enter a valid work email address.";
+    return;
+  }
   if (!consent) {
     msg.className = "submit-msg err";
     msg.textContent = "Please tick the consent box so we can reply.";
@@ -377,7 +392,7 @@ document.getElementById("leadForm").addEventListener("submit", function (e) {
     bodyLines.push("Outcome needed: " + out.title);
   } else {
     var v = VENDORS[state.stack] || VENDORS.greenfield;
-    var rec = computeRecommendation(v);
+    var rec = computeRecommendation(v, state.resources);
     payload.stack = v.name;
     payload.entra = state.entra;
     payload.resources = state.resources.join(", ");
@@ -394,16 +409,25 @@ document.getElementById("leadForm").addEventListener("submit", function (e) {
   bodyLines.push(note ? "Notes: " + note : "");
 
   if (FORM_ENDPOINT_URL) {
+    msg.className = "submit-msg";
+    msg.textContent = "Sending…";
     fetch(FORM_ENDPOINT_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=UTF-8" },
       body: JSON.stringify(payload)
-    }).then(function () {
-      msg.className = "submit-msg ok";
-      msg.textContent = "Thanks " + name.split(" ")[0] + " — your request is in. We'll be in touch within one business day.";
+    }).then(function (res) {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json().catch(function () { return {}; });
+    }).then(function (data) {
+      if (data && data.status === "ok") {
+        msg.className = "submit-msg ok";
+        msg.textContent = "Thanks " + name.split(" ")[0] + " — your request is in. We'll be in touch within one business day.";
+      } else {
+        throw new Error((data && data.message) || "unexpected response");
+      }
     }).catch(function () {
       msg.className = "submit-msg err";
-      msg.textContent = "Something went wrong. Please email hello@passbeck.com instead.";
+      msg.innerHTML = "Something went wrong and your details weren't sent. Please email <a href=\"mailto:hello@passbeck.com\">hello@passbeck.com</a> instead.";
     });
   } else {
     var subject = encodeURIComponent("GSA " + (state.mode === "review" ? "review" : "assessment") + " request — " + (company || name));

@@ -28,6 +28,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <header>
   <div class="wrap nav">
     <a class="brand" href="index.html">
@@ -50,7 +52,7 @@
   </div>
 </header>
 
-<main>
+<main id="main">
   <section class="page-hero">
     <div class="wrap">
       <span class="eyebrow"><span class="dot"></span> 5 minutes · no obligation</span>
@@ -176,16 +178,16 @@
 
             <form id="leadForm" novalidate>
               <div class="form-grid">
-                <div class="field"><label>Name <span class="req">*</span></label><input type="text" id="fName" required placeholder="Jane Smith"></div>
-                <div class="field"><label>Company</label><input type="text" id="fCompany" placeholder="Acme Pty Ltd"></div>
+                <div class="field"><label for="fName">Name <span class="req">*</span></label><input type="text" id="fName" required autocomplete="name" placeholder="Jane Smith"></div>
+                <div class="field"><label for="fCompany">Company</label><input type="text" id="fCompany" autocomplete="organization" placeholder="Acme Pty Ltd"></div>
               </div>
-              <div class="field"><label>Work email <span class="req">*</span></label><input type="email" id="fEmail" required placeholder="jane@acme.com"></div>
-              <div class="field"><label>Anything else? (optional)</label><textarea id="fNote" rows="3" placeholder="e.g. timeline, compliance drivers, current pain points…"></textarea></div>
+              <div class="field"><label for="fEmail">Work email <span class="req">*</span></label><input type="email" id="fEmail" required autocomplete="email" placeholder="jane@acme.com"></div>
+              <div class="field"><label for="fNote">Anything else? (optional)</label><textarea id="fNote" rows="3" placeholder="e.g. timeline, compliance drivers, current pain points…"></textarea></div>
               <label style="display:flex;gap:9px;align-items:flex-start;font-size:0.85rem;color:var(--ink-soft);margin:6px 0 18px;cursor:pointer">
-                <input type="checkbox" id="fConsent" checked style="margin-top:3px"> I'm happy for you to email me about my assessment (and nothing else).
+                <input type="checkbox" id="fConsent" style="margin-top:3px"> I'm happy for you to email me about my assessment (and nothing else).
               </label>
               <button type="submit" class="btn btn-primary">Get in touch</button>
-              <p class="submit-msg" id="submitMsg"></p>
+              <p class="submit-msg" id="submitMsg" aria-live="polite"></p>
             </form>
           </div>
         </div>
